@@ -23,7 +23,7 @@ public class ActivitySplash extends Activity
 					Thread.sleep(3000);
 
 					//if(MyApplication.getInstance().getAppPreferences().isUserLoggedIn())
-						startActivity(new Intent(ActivitySplash.this, ActivitySignUp.class));
+						startActivity(new Intent(ActivitySplash.this, ActivityLogin.class));
 					/*else
 						startActivity(new Intent(ActivitySplash.this, ActivityLoginSignup.class));*/
 

@@ -28,6 +28,11 @@
             android:windowSoftInputMode="adjustPan"
             android:screenOrientation="portrait"
             android:alwaysRetainTaskState="true"/>
+        <activity android:name=".ActivityLogin" android:label="@string/activity_login"
+            android:theme="@style/AppThemeNoActionBar"
+            android:windowSoftInputMode="adjustPan"
+            android:screenOrientation="portrait"
+            android:alwaysRetainTaskState="true"/>
 
         <activity android:name=".MainActivity" android:label="@string/activity_main"
             android:windowSoftInputMode="adjustPan"

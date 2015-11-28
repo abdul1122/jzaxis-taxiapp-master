@@ -12,4 +12,9 @@ public class SignUp {
     public String password;
     public String city;
     public String referralCode;
+
+    public void nsiar(){
+         String referralCode;
+
+    }
 }

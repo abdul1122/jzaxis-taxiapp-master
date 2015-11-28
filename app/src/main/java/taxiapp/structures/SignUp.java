@@ -13,8 +13,5 @@ public class SignUp {
     public String city;
     public String referralCode;
 
-    public void nsiarahmad(){
-         String refkjkjkerralCode;
-
-    }
+   
 }

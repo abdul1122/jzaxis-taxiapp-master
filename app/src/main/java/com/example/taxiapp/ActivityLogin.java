@@ -15,8 +15,12 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 
+import org.json.JSONObject;
+
 import taxiapp.constants.URLConstants;
 import taxiapp.structures.Login;
+import taxiapp.structures.UserDetails;
+import taxiapp.utils.CommonUtilities;
 
 public class ActivityLogin extends Activity implements View.OnClickListener {
 
@@ -86,7 +90,30 @@ public class ActivityLogin extends Activity implements View.OnClickListener {
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
-                        Log.i(TAG, "performLoginTask() - Response: " + response);
+                        try {
+                            response = response.trim();
+                            int success = 0;
+
+                            if (response.startsWith("{") && response.endsWith("}")) {
+                                JSONObject jsonObject = new JSONObject(response);
+                                success = jsonObject.getInt("success");
+                                if(success == 0) {
+                                    CommonUtilities.toastShort(ActivityLogin.this, "Login failed");
+                                } else {
+                                    /*UserDetails userDetails = (new Gson()).fromJson(jsonObject.getJSONArray("apps")
+                                                    .get(0).toString(), UserDetails.class);*/
+                                    JSONObject userObj = (JSONObject) jsonObject.getJSONArray("apps").get(0);
+                                    UserDetails userDetails = new UserDetails();
+                                    userDetails.last_name = userObj.getString("last_name");
+                                    CommonUtilities.toastShort(ActivityLogin.this, userDetails.last_name
+                                            + " logged in successfully");
+                                }
+                            }
+                            Log.i(TAG, "performLoginTask() - Response: " + response);
+                        }
+                        catch (Exception e) {
+                            e.printStackTrace();
+                        }
                         pDialog.hide();
                     }
                 },

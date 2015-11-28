@@ -24,7 +24,9 @@
             android:layout_marginTop="5dp"
             android:textSize="16sp"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
+            android:layout_height="wrap_content"
+            android:singleLine="true"
+            android:maxLength="50"/>
 
         <EditText
             android:id="@+id/et_signup_lastName"
@@ -33,7 +35,9 @@
             android:layout_marginTop="5dp"
             android:textSize="16sp"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
+            android:layout_height="wrap_content"
+            android:singleLine="true"
+            android:maxLength="50"/>
         <EditText
             android:id="@+id/et_signup_phoneNumber"
             android:hint="Phone"
@@ -41,7 +45,9 @@
             android:textSize="16sp"
             android:inputType="number"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
+            android:layout_height="wrap_content"
+            android:singleLine="true"
+            android:maxLength="25"/>
         <EditText
             android:id="@+id/et_signup_email"
             android:hint="Email"
@@ -49,15 +55,20 @@
             android:layout_marginTop="5dp"
             android:textSize="16sp"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
+            android:layout_height="wrap_content"
+            android:singleLine="true"
+            android:maxLength="30"
+            android:inputType="textEmailAddress"/>
         <EditText
             android:id="@+id/et_signup_password"
             android:hint="Password"
             android:gravity="center"
             android:textSize="16sp"
-            android:inputType="numberPassword"
+            android:inputType="textPassword"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
+            android:layout_height="wrap_content"
+            android:singleLine="true"
+            android:maxLength="20"/>
         <EditText
             android:id="@+id/et_signup_city"
             android:hint="City"
@@ -65,7 +76,9 @@
             android:layout_marginTop="5dp"
             android:textSize="16sp"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
+            android:layout_height="wrap_content"
+            android:singleLine="true"
+            android:maxLength="100"/>
         <EditText
             android:id="@+id/et_signup_referralCode"
             android:hint="Referral Code"
@@ -73,7 +86,9 @@
             android:layout_marginTop="5dp"
             android:textSize="16sp"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
+            android:layout_height="wrap_content"
+            android:singleLine="true"
+            android:maxLength="20"/>
     </LinearLayout>
 
 

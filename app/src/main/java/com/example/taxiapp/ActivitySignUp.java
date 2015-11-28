@@ -13,9 +13,14 @@ import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
+import com.google.gson.Gson;
+
+import org.json.JSONObject;
 
 import taxiapp.constants.URLConstants;
 import taxiapp.structures.SignUp;
+import taxiapp.structures.UserDetails;
+import taxiapp.utils.CommonUtilities;
 
 public class ActivitySignUp extends Activity {
 
@@ -86,7 +91,30 @@ public class ActivitySignUp extends Activity {
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
-                        Log.i(TAG, "performSignUpTask() - Response: " + response);
+                        try {
+                            response = response.trim();
+                            int success = 0;
+
+                            if (response.startsWith("{") && response.endsWith("}")) {
+                                JSONObject jsonObject = new JSONObject(response);
+                                success = jsonObject.getInt("success");
+                                if(success == 0) {
+                                    CommonUtilities.toastShort(ActivitySignUp.this, "Sign up failed");
+                                } else {
+                                    /*UserDetails userDetails = (new Gson()).fromJson(jsonObject.getJSONArray("apps")
+                                                    .get(0).toString(), UserDetails.class);*/
+                                    JSONObject userObj = (JSONObject) jsonObject.getJSONArray("apps").get(0);
+                                    UserDetails userDetails = new UserDetails();
+                                    userDetails.last_name = userObj.getString("last_name");
+                                    CommonUtilities.toastShort(ActivitySignUp.this, userDetails.last_name
+                                            + " registered successfully");
+                                }
+                            }
+                            Log.i(TAG, "performSignUpTask() - Response: " + response);
+                        }
+                        catch (Exception e) {
+                            e.printStackTrace();
+                        }
                         pDialog.hide();
                     }
                 },

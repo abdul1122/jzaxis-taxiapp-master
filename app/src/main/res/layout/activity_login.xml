@@ -41,7 +41,8 @@
             android:textSize="14sp"
             android:textColor="@android:color/black"
             android:singleLine="true"
-            android:inputType="text"/>
+            android:inputType="textEmailAddress"
+            android:maxLength="50"/>
 
         <EditText android:id="@+id/et_login_password"
             android:layout_width="match_parent"
@@ -53,7 +54,8 @@
             android:textSize="14sp"
             android:textColor="@android:color/black"
             android:singleLine="true"
-            android:inputType="textPassword"/>
+            android:inputType="textPassword"
+            android:maxLength="20"/>
 
         <Button
             android:id="@+id/btn_login_login"

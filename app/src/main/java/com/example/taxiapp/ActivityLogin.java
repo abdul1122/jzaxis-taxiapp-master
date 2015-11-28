@@ -18,10 +18,10 @@ import com.android.volley.toolbox.StringRequest;
 import taxiapp.constants.URLConstants;
 import taxiapp.structures.Login;
 
-public class ActivityLogin extends Activity implements View.OnClickListener{
+public class ActivityLogin extends Activity implements View.OnClickListener {
 
-    EditText et_login_email, et_login_password;
-    Button btn_login_login, btn_login_signup;
+    EditText etEmail, etPassword;
+    Button btnLogin, btnSignup;
     public static String TAG = ActivityLogin.class.getSimpleName();
 
     @Override
@@ -33,16 +33,16 @@ public class ActivityLogin extends Activity implements View.OnClickListener{
         initListeners();
     }
 
-    private void init(){
-        et_login_email=(EditText)findViewById(R.id.et_login_email);
-        et_login_password=(EditText)findViewById(R.id.et_login_password);
-        btn_login_login=(Button) findViewById(R.id.btn_login_login);
-        btn_login_signup=(Button) findViewById(R.id.btn_login_signup);
+    private void init() {
+        etEmail =(EditText)findViewById(R.id.et_login_email);
+        etPassword =(EditText)findViewById(R.id.et_login_password);
+        btnLogin =(Button) findViewById(R.id.btn_login_login);
+        btnSignup =(Button) findViewById(R.id.btn_login_signup);
     }
 
     private void initListeners() {
-        btn_login_login.setOnClickListener(this);
-        btn_login_signup.setOnClickListener(this);
+        btnLogin.setOnClickListener(this);
+        btnSignup.setOnClickListener(this);
     }
 
     @Override
@@ -51,8 +51,8 @@ public class ActivityLogin extends Activity implements View.OnClickListener{
         switch(id) {
             case R.id.btn_login_login:
                 Login login = new Login();
-                login.email = et_login_email.getText().toString();
-                login.password = et_login_password.getText().toString();
+                login.email = etEmail.getText().toString();
+                login.password = etPassword.getText().toString();
                 performLoginTask(login);
                 break;
             case R.id.btn_login_signup:

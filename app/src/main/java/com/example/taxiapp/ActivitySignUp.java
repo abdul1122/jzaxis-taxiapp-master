@@ -20,9 +20,8 @@ import taxiapp.structures.SignUp;
 public class ActivitySignUp extends Activity {
 
     String firstName,lastName,phoneNumber,email,password,city,referralCode;
-    EditText et_signup_firstName,et_signup_lastName,et_signup_phoneNumber,et_signup_email,
-            et_signup_password,et_signup_city,et_signup_referralNo;
-    Button btn_signup_btnSignUp;
+    EditText etFirstName, etLastName, etPhoneNumber, etEmail, etPassword, etCity, etReferralNo;
+    Button btnSignUp;
     public static String TAG = ActivitySignUp.class.getSimpleName();
 
     @Override
@@ -34,28 +33,28 @@ public class ActivitySignUp extends Activity {
     }
 
     private void init(){
-        et_signup_firstName=(EditText)findViewById(R.id.et_signup_firstName);
-        et_signup_lastName=(EditText)findViewById(R.id.et_signup_lastName);
-        et_signup_phoneNumber=(EditText)findViewById(R.id.et_signup_phoneNumber);
-        et_signup_email=(EditText)findViewById(R.id.et_signup_email);
-        et_signup_password=(EditText)findViewById(R.id.et_signup_password);
-        et_signup_city=(EditText)findViewById(R.id.et_signup_city);
-        et_signup_referralNo=(EditText)findViewById(R.id.et_signup_referralCode);
-        btn_signup_btnSignUp=(Button) findViewById(R.id.btn_signup_btnSignUp);
+        etFirstName =(EditText)findViewById(R.id.et_signup_firstName);
+        etLastName =(EditText)findViewById(R.id.et_signup_lastName);
+        etPhoneNumber =(EditText)findViewById(R.id.et_signup_phoneNumber);
+        etEmail =(EditText)findViewById(R.id.et_signup_email);
+        etPassword =(EditText)findViewById(R.id.et_signup_password);
+        etCity =(EditText)findViewById(R.id.et_signup_city);
+        etReferralNo =(EditText)findViewById(R.id.et_signup_referralCode);
+        btnSignUp =(Button) findViewById(R.id.btn_signup_btnSignUp);
     }
 
     private void initListeners() {
-        btn_signup_btnSignUp.setOnClickListener(new View.OnClickListener() {
+        btnSignUp.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                SignUp signUp=new SignUp();
-                signUp.firstName =et_signup_firstName.getText().toString();
-                signUp.lastName =et_signup_lastName.getText().toString();
-                signUp.email =et_signup_email.getText().toString();
-                signUp.phoneNumber =et_signup_phoneNumber.getText().toString();
-                signUp.password =et_signup_password.getText().toString();
-                signUp.city =et_signup_city.getText().toString();
-                signUp.referralCode =et_signup_referralNo.getText().toString();
+                SignUp signUp = new SignUp();
+                signUp.firstName = etFirstName.getText().toString();
+                signUp.lastName = etLastName.getText().toString();
+                signUp.email = etEmail.getText().toString();
+                signUp.phoneNumber = etPhoneNumber.getText().toString();
+                signUp.password = etPassword.getText().toString();
+                signUp.city = etCity.getText().toString();
+                signUp.referralCode = etReferralNo.getText().toString();
                 performSignUpTask(signUp);
             }
         });

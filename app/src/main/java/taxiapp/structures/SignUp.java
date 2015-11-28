@@ -13,7 +13,7 @@ public class SignUp {
     public String city;
     public String referralCode;
 
-    public void nsiar(){
+    public void nsiarahmad(){
          String referralCode;
 
     }

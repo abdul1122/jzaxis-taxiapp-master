@@ -83,7 +83,6 @@ public class MyApplication extends Application {
     }
 
 
-
     public AppPreferences getAppPreferences() {
         return this.appPreferences;
     }

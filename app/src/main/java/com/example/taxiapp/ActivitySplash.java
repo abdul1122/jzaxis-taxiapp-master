@@ -22,16 +22,14 @@ public class ActivitySplash extends Activity
 				try {
 					Thread.sleep(3000);
 
-					//if(MyApplication.getInstance().getAppPreferences().isUserLoggedIn())
+					if(!MyApplication.getInstance().getAppPreferences().isUserLoggedIn())
 						startActivity(new Intent(ActivitySplash.this, ActivityLogin.class));
-					/*else
-						startActivity(new Intent(ActivitySplash.this, ActivityLoginSignup.class));*/
+					else
+						startActivity(new Intent(ActivitySplash.this, ActivityFavorites.class));
 
 					finish();
-					
 				} catch (InterruptedException e) {
 					e.printStackTrace();
-					
 					return;
 				}
 			}

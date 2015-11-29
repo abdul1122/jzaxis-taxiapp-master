@@ -100,13 +100,13 @@ public class ActivityLogin extends Activity implements View.OnClickListener {
                                 if(success == 0) {
                                     CommonUtilities.toastShort(ActivityLogin.this, "Login failed");
                                 } else {
-                                    /*UserDetails userDetails = (new Gson()).fromJson(jsonObject.getJSONArray("apps")
-                                                    .get(0).toString(), UserDetails.class);*/
                                     JSONObject userObj = (JSONObject) jsonObject.getJSONArray("apps").get(0);
-                                    UserDetails userDetails = new UserDetails();
-                                    userDetails.last_name = userObj.getString("last_name");
+                                    UserDetails userDetails = getUserDetailsObject(userObj);
                                     CommonUtilities.toastShort(ActivityLogin.this, userDetails.last_name
                                             + " logged in successfully");
+
+                                    // Saving preferences for login session
+                                    MyApplication.getInstance().getAppPreferences().setLoginSession(userDetails);
 
                                     // Redirecting user
                                     finish();
@@ -136,5 +136,23 @@ public class ActivityLogin extends Activity implements View.OnClickListener {
         request.setShouldCache(false);
         // Adding the request to request queue associated with a tag
         MyApplication.getInstance().addToRequestQueue(request, SERVICE_REQ_TAG_LOGIN);
+    }
+
+    private UserDetails getUserDetailsObject(JSONObject jsonObject) {
+        try {
+            UserDetails userDetails = new UserDetails();
+            userDetails.user_id = jsonObject.getString("user_id");
+            userDetails.first_name = jsonObject.getString("first_name");
+            userDetails.last_name = jsonObject.getString("last_name");
+            userDetails.email = jsonObject.getString("email");
+            userDetails.mobile = jsonObject.getString("mobile");
+            userDetails.city = jsonObject.getString("city");
+            userDetails.referal_code = jsonObject.getString("referal_code");
+            return userDetails;
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
     }
 }

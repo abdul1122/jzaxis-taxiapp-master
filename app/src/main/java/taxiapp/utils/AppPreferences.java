@@ -7,14 +7,12 @@ import com.example.taxiapp.MainActivity;
 
 import taxiapp.structures.UserDetails;
 
-// TODO Working in progress by Hassan Jamil
 public class AppPreferences {
-	private SharedPreferences preferences;
-	private Editor editor;
-	private Context context;
+	private SharedPreferences mPreferences;
+	private Editor mEditor;
+	private Context mContext;
 
 	public static final String PREFERENCE_NAME = MainActivity.class.getPackage().getName() + "_pref";
-	private static final String KEY_DEFAULT_LOCATION = "default_location";
 
 	private static final String KEY_USER_ID = "pref_key_user_id";
 	private static final String KEY_USER_FIRST_NAME = "pref_key_user_first_name";
@@ -25,57 +23,56 @@ public class AppPreferences {
 	private static final String KEY_USER_REFERRAL_CODE = "pref_key_user_referral_code";
 	private static final String KEY_USER_LOGGED_IN = "pref_key_user_logged_in";
 
-	public AppPreferences(Context context)
-	{
-		this.context = context;
+	public AppPreferences(Context context) {
+		mContext= context;
 
-		preferences = (SharedPreferences) context.getSharedPreferences(PREFERENCE_NAME, Context.MODE_PRIVATE);
-		editor = preferences.edit();
-		editor.commit();
+		mPreferences= (SharedPreferences) mContext.getSharedPreferences(PREFERENCE_NAME, Context.MODE_PRIVATE);
+		mEditor= mPreferences.edit();
+		mEditor.commit();
 	}
 
-	public void saveLoginSession(UserDetails userDetails) {
-		editor.putString(KEY_USER_ID, userDetails.user_id);
-		editor.putString(KEY_USER_FIRST_NAME, userDetails.first_name);
-		editor.putString(KEY_USER_LAST_NAME, userDetails.last_name);
-		editor.putString(KEY_USER_EMAIL, userDetails.email);
-		editor.putString(KEY_USER_PHONE, userDetails.mobile);
-		editor.putString(KEY_USER_CITY, userDetails.city);
-		editor.putString(KEY_USER_REFERRAL_CODE, userDetails.referal_code);
-		editor.putBoolean(KEY_USER_LOGGED_IN, true);
-		editor.commit();
+	public void setLoginSession(UserDetails userDetails) {
+		mEditor.putString(KEY_USER_ID, userDetails.user_id);
+		mEditor.putString(KEY_USER_FIRST_NAME, userDetails.first_name);
+		mEditor.putString(KEY_USER_LAST_NAME, userDetails.last_name);
+		mEditor.putString(KEY_USER_EMAIL, userDetails.email);
+		mEditor.putString(KEY_USER_PHONE, userDetails.mobile);
+		mEditor.putString(KEY_USER_CITY, userDetails.city);
+		mEditor.putString(KEY_USER_REFERRAL_CODE, userDetails.referal_code);
+		mEditor.putBoolean(KEY_USER_LOGGED_IN, true);
+		mEditor.commit();
 	}
 
-
-	/**
-	 * To set user default location's preferences
-	 * @param strLocation like "33.84647,74.9847646"
-	 */
-	public void setUserDefaultLocation(String strLocation) {
-		editor.putString(KEY_DEFAULT_LOCATION, strLocation);
-		editor.commit();
+	public UserDetails getLoginSession() {
+		UserDetails userDetails = new UserDetails();
+		userDetails.user_id = mPreferences.getString(KEY_USER_ID, null);
+		userDetails.first_name = mPreferences.getString(KEY_USER_FIRST_NAME, null);
+		userDetails.last_name = mPreferences.getString(KEY_USER_LAST_NAME, null);
+		userDetails.email = mPreferences.getString(KEY_USER_EMAIL, null);
+		userDetails.mobile = mPreferences.getString(KEY_USER_PHONE, null);
+		userDetails.city = mPreferences.getString(KEY_USER_CITY, null);
+		userDetails.referal_code = mPreferences.getString(KEY_USER_REFERRAL_CODE, null);
+		return userDetails;
 	}
 
-
-
-	
-	public String getDefaultLocation() { return preferences.getString(KEY_DEFAULT_LOCATION, null); }
-	public String getUserId() { return preferences.getString(KEY_USER_ID, null); }
-	public String getUserEmail() { return preferences.getString(KEY_USER_EMAIL, null); }
-	public boolean isUserLoggedIn() { return preferences.getBoolean(KEY_USER_LOGGED_IN, false); }
-
-
-
+	public boolean isUserLoggedIn() {
+		return mPreferences.getBoolean(KEY_USER_LOGGED_IN, false);
+	}
 
 	public void logoutUser() {
-		editor.remove(KEY_USER_ID);
-		editor.remove(KEY_USER_EMAIL);
-		editor.putBoolean(KEY_USER_LOGGED_IN, false);
-		editor.commit();
+		mEditor.remove(KEY_USER_ID);
+		mEditor.remove(KEY_USER_FIRST_NAME);
+		mEditor.remove(KEY_USER_LAST_NAME);
+		mEditor.remove(KEY_USER_EMAIL);
+		mEditor.remove(KEY_USER_PHONE);
+		mEditor.remove(KEY_USER_CITY);
+		mEditor.remove(KEY_USER_REFERRAL_CODE);
+		mEditor.remove(KEY_USER_LOGGED_IN);
+		mEditor.commit();
 	}
 
 	public void clearPreferences() {
-		editor.clear();
-		editor.commit();
+		mEditor.clear();
+		mEditor.commit();
 	}
 }

@@ -6,9 +6,9 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_above="@+id/btn_add_fav_save"
         android:orientation="vertical"
         android:padding="10dp">
-
 
         <EditText
             android:id="@+id/et_add_fav_placeName"
@@ -49,6 +49,13 @@
             android:layout_marginTop="15dp"
             android:text="Show On Map" />
 
+
+        <fragment
+            android:id="@+id/map_add_favorite"
+            android:name="com.google.android.gms.maps.MapFragment"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="10dp"/>
 
     </LinearLayout>
 

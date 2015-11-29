@@ -86,7 +86,7 @@ public class ActivityLogin extends Activity implements View.OnClickListener {
 
         // Making request to server for results
         StringRequest request = new StringRequest(Request.Method.POST, SERVICE_URL_LOGIN,
-                //On response success
+                // On response success
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
@@ -107,6 +107,10 @@ public class ActivityLogin extends Activity implements View.OnClickListener {
                                     userDetails.last_name = userObj.getString("last_name");
                                     CommonUtilities.toastShort(ActivityLogin.this, userDetails.last_name
                                             + " logged in successfully");
+
+                                    // Redirecting user
+                                    finish();
+                                    startActivity(new Intent(ActivityLogin.this, ActivityFavorites.class));
                                 }
                             }
                             Log.i(TAG, "performLoginTask() - Response: " + response);

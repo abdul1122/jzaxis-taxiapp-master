@@ -33,4 +33,6 @@ dependencies {
     // Crash Reports Library
     compile 'ch.acra:acra:4.5.0'
 
+    // Google Play Services for map support
+    compile 'com.google.android.gms:play-services-maps:8.1.0'
 }

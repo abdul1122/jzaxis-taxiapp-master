@@ -2,6 +2,7 @@ package com.example.taxiapp;
 
 import android.app.Activity;
 import android.app.ProgressDialog;
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -13,7 +14,6 @@ import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
-import com.google.gson.Gson;
 
 import org.json.JSONObject;
 
@@ -22,7 +22,7 @@ import taxiapp.structures.SignUp;
 import taxiapp.structures.UserDetails;
 import taxiapp.utils.CommonUtilities;
 
-public class ActivitySignUp extends Activity {
+public class ActivitySignUp extends Activity implements View.OnClickListener{
 
     String firstName,lastName,phoneNumber,email,password,city,referralCode;
     EditText etFirstName, etLastName, etPhoneNumber, etEmail, etPassword, etCity, etReferralNo;
@@ -45,13 +45,18 @@ public class ActivitySignUp extends Activity {
         etPassword =(EditText)findViewById(R.id.et_signup_password);
         etCity =(EditText)findViewById(R.id.et_signup_city);
         etReferralNo =(EditText)findViewById(R.id.et_signup_referralCode);
-        btnSignUp =(Button) findViewById(R.id.btn_signup_btnSignUp);
+        btnSignUp =(Button) findViewById(R.id.btn_signup_signUp);
     }
 
     private void initListeners() {
-        btnSignUp.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
+        btnSignUp.setOnClickListener(this);
+    }
+
+    @Override
+    public void onClick(View view) {
+        int id = view.getId();
+        switch (id) {
+            case R.id.btn_signup_signUp:
                 SignUp signUp = new SignUp();
                 signUp.firstName = etFirstName.getText().toString();
                 signUp.lastName = etLastName.getText().toString();
@@ -61,8 +66,8 @@ public class ActivitySignUp extends Activity {
                 signUp.city = etCity.getText().toString();
                 signUp.referralCode = etReferralNo.getText().toString();
                 performSignUpTask(signUp);
-            }
-        });
+                break;
+        }
     }
 
     /** Tag used to associate with the request to server,
@@ -108,6 +113,10 @@ public class ActivitySignUp extends Activity {
                                     userDetails.last_name = userObj.getString("last_name");
                                     CommonUtilities.toastShort(ActivitySignUp.this, userDetails.last_name
                                             + " registered successfully");
+
+                                    // Redirecting user
+                                    finish();
+                                    startActivity(new Intent(ActivitySignUp.this, ActivityFavorites.class));
                                 }
                             }
                             Log.i(TAG, "performSignUpTask() - Response: " + response);

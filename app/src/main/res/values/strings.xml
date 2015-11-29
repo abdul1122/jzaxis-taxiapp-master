@@ -1,7 +1,18 @@
 <resources>
     <string name="app_name">TaxiApp</string>
+    <string name="crash_toast_text">Ooooops! App crashed, but a report has been sent to the developer to help fix the issue!</string>
+
     <string name="activity_signup">Sign Up</string>
     <string name="activity_login">Login</string>
     <string name="activity_main">Taxi App</string>
-    <string name="crash_toast_text">Ooooops! App crashed, but a report has been sent to the developer to help fix the issue!</string>
+    <string name="activity_favorites">Favorites</string>
+    <string name="activity_add_favorite">Add Favorite</string>
+
+
+    <!-- Hassan's Laptop-->
+    <string name="google_maps_api_key">AIzaSyALRuBbbWXPrzc2GpVsjBl7eWxdiZpj70w</string>
+
+    <!-- Nisar's Laptop -->
+    <!--<string name="google_maps_api_key">AIzaSyCIi0U56tTRlBO1c7NPRFC9ho0lDK_CPfY</string>-->
+
 </resources>

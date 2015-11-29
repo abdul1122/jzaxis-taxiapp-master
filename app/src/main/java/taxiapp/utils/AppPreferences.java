@@ -5,6 +5,9 @@ import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
 import com.example.taxiapp.MainActivity;
 
+import taxiapp.structures.UserDetails;
+
+// TODO Working in progress by Hassan Jamil
 public class AppPreferences {
 	private SharedPreferences preferences;
 	private Editor editor;
@@ -13,10 +16,14 @@ public class AppPreferences {
 	public static final String PREFERENCE_NAME = MainActivity.class.getPackage().getName() + "_pref";
 	private static final String KEY_DEFAULT_LOCATION = "default_location";
 
-	private static final String KEY_USER_NAME = "user_name";
-	private static final String KEY_USER_EMAIL = "user_email";
-	private static final String KEY_USER_ID = "user_id";
-	private static final String KEY_USER_LOGGED_IN = "user_logged_in";
+	private static final String KEY_USER_ID = "pref_key_user_id";
+	private static final String KEY_USER_FIRST_NAME = "pref_key_user_first_name";
+	private static final String KEY_USER_LAST_NAME = "pref_key_user_first_name";
+	private static final String KEY_USER_EMAIL = "pref_key_user_email";
+	private static final String KEY_USER_PHONE = "pref_key_user_phone";
+	private static final String KEY_USER_CITY = "pref_key_user_city";
+	private static final String KEY_USER_REFERRAL_CODE = "pref_key_user_referral_code";
+	private static final String KEY_USER_LOGGED_IN = "pref_key_user_logged_in";
 
 	public AppPreferences(Context context)
 	{
@@ -27,12 +34,15 @@ public class AppPreferences {
 		editor.commit();
 	}
 
-	public void saveLoginSession(String userId, String name, String email,
-								 boolean isUserLoggedIn) {
-		editor.putString(KEY_USER_ID, userId);
-		editor.putString(KEY_USER_NAME, name);
-		editor.putString(KEY_USER_EMAIL, email);
-		editor.putBoolean(KEY_USER_LOGGED_IN, isUserLoggedIn);
+	public void saveLoginSession(UserDetails userDetails) {
+		editor.putString(KEY_USER_ID, userDetails.user_id);
+		editor.putString(KEY_USER_FIRST_NAME, userDetails.first_name);
+		editor.putString(KEY_USER_LAST_NAME, userDetails.last_name);
+		editor.putString(KEY_USER_EMAIL, userDetails.email);
+		editor.putString(KEY_USER_PHONE, userDetails.mobile);
+		editor.putString(KEY_USER_CITY, userDetails.city);
+		editor.putString(KEY_USER_REFERRAL_CODE, userDetails.referal_code);
+		editor.putBoolean(KEY_USER_LOGGED_IN, true);
 		editor.commit();
 	}
 
@@ -51,7 +61,6 @@ public class AppPreferences {
 	
 	public String getDefaultLocation() { return preferences.getString(KEY_DEFAULT_LOCATION, null); }
 	public String getUserId() { return preferences.getString(KEY_USER_ID, null); }
-	public String getUsername() { return preferences.getString(KEY_USER_NAME, null); }
 	public String getUserEmail() { return preferences.getString(KEY_USER_EMAIL, null); }
 	public boolean isUserLoggedIn() { return preferences.getBoolean(KEY_USER_LOGGED_IN, false); }
 
@@ -60,7 +69,6 @@ public class AppPreferences {
 
 	public void logoutUser() {
 		editor.remove(KEY_USER_ID);
-		editor.remove(KEY_USER_NAME);
 		editor.remove(KEY_USER_EMAIL);
 		editor.putBoolean(KEY_USER_LOGGED_IN, false);
 		editor.commit();

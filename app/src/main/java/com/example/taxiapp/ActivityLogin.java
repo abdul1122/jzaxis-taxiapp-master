@@ -60,6 +60,7 @@ public class ActivityLogin extends Activity implements View.OnClickListener {
                 performLoginTask(login);
                 break;
             case R.id.btn_login_signup:
+                finish();
                 startActivity(new Intent(ActivityLogin.this, ActivitySignUp.class));
                 break;
         }

@@ -10,6 +10,7 @@ import com.example.taxiapp.R;
 
 import java.util.List;
 
+import taxiapp.structures.FavoriteItem;
 import taxiapp.structures.Favorites;
 
 /**
@@ -17,28 +18,27 @@ import taxiapp.structures.Favorites;
  */
 public class FavoritesListAdapter extends BaseAdapter{
 
-    private Context context;
+    private Context mContext;
     private int layoutResId;
-    private List<Favorites> listFav;
+    private Favorites mFavorites;
     private ViewHolder holder;
 
-    public FavoritesListAdapter(Context context, List<Favorites> listFav)
-    {
-        this.context = context;
-        this.listFav = listFav;
+    public FavoritesListAdapter(Context context, Favorites favorites) {
+        this.mContext = context;
+        this.mFavorites = favorites;
         this.layoutResId = R.layout.item_favorite;
     }
 
     @Override
     public int getCount()
     {
-        return listFav.size();
+        return mFavorites.listFavItems.size();
     }
 
     @Override
-    public Favorites getItem(int position)
+    public FavoriteItem getItem(int position)
     {
-        return listFav.get(position);
+        return mFavorites.listFavItems.get(position);
     }
 
     @Override
@@ -48,13 +48,11 @@ public class FavoritesListAdapter extends BaseAdapter{
     }
 
     @Override
-    public View getView(int position, View convertView, ViewGroup parent)
-    {
+    public View getView(int position, View convertView, ViewGroup parent) {
         View row = convertView;
 
-        if(row == null)
-        {
-            LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        if(row == null) {
+            LayoutInflater inflater = (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             row = inflater.inflate(layoutResId, parent, false);
 
             holder = new ViewHolder();
@@ -63,30 +61,30 @@ public class FavoritesListAdapter extends BaseAdapter{
             holder.ivFavIcon=(ImageView)row.findViewById(R.id.iv_item_fav_icon);
 
             row.setTag(holder);
-        }
-        else
-        {
+        } else {
             holder = (ViewHolder) row.getTag();
         }
 
         //Setting values
-        Favorites dataObj = getItem(position);
+        FavoriteItem dataObj = getItem(position);
 
-        if(dataObj.placeIdentifier!=100) {
-            holder.tvFavPlaceName.setText(dataObj.placeName);
-            holder.tvFavPlaceAddress.setText(dataObj.placeAddress);
-        }else {
+        holder.tvFavPlaceName.setText(dataObj.placeName);
+
+        if(dataObj.placeIdentifier == 100) {
             holder.tvFavPlaceAddress.setVisibility(View.GONE);
             holder.ivFavIcon.setImageResource(android.R.drawable.ic_menu_add);
+        } else {
+            holder.tvFavPlaceAddress.setText(dataObj.placeAddress);
+            holder.tvFavPlaceAddress.setVisibility(View.VISIBLE);
+            holder.ivFavIcon.setImageResource(android.R.drawable.star_big_off);
         }
-        //holder.ivFavIcon.setImageResource(R.drawable.logo);
+
         row.setTag(dataObj);
+
         return row;
     }
 
-    private static class ViewHolder
-    {
-
+    private static class ViewHolder {
         private TextView tvFavPlaceName,tvFavPlaceAddress;
         private ImageView ivFavIcon;
     }

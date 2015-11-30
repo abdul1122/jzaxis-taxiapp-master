@@ -12,12 +12,15 @@ import java.util.ArrayList;
 import java.util.List;
 
 import taxiapp.adapters.FavoritesListAdapter;
+import taxiapp.structures.FavoriteItem;
 import taxiapp.structures.Favorites;
+import taxiapp.utils.CommonUtilities;
 
 /**
  * Created by hassanjamil on 2015-11-28.
  */
-public class ActivityFavorites extends Activity implements View.OnClickListener {
+public class ActivityFavorites extends Activity implements View.OnClickListener,
+        AdapterView.OnItemClickListener {
 
     private Button btnAddFavorite;
     private ListView lvFavorite;
@@ -32,48 +35,7 @@ public class ActivityFavorites extends Activity implements View.OnClickListener 
 
         init();
         initListeners();
-        List<Favorites> listFav = setDummyList();
-        adapter = new FavoritesListAdapter(this, listFav);
-        lvFavorite.setAdapter(adapter);
-        lvFavorite.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position,
-                                    long id) {
-                Favorites favorites = (Favorites) view.getTag();
-                Intent i = new Intent(ActivityFavorites.this, ActivityAddFavorite.class);
-                i.putExtra("placeName", favorites.placeName);
-                i.putExtra("placeAddress", favorites.placeAddress);
-                i.putExtra("placeIdentifier", favorites.placeIdentifier);
-                startActivity(i);
-            }
-
-        });
-    }
-
-    private List<Favorites> setDummyList() {
-        List<Favorites> list = new ArrayList<>();
-        Favorites obj1 = new Favorites();
-        obj1.placeIdentifier = 100;
-        obj1.placeName = "Home";
-        obj1.placeAddress = "";
-        list.add(obj1);
-        Favorites obj2 = new Favorites();
-        obj2.placeIdentifier = 200;
-        obj2.placeName = "Office";
-        obj2.placeAddress = "h/12 Islamabad";
-        list.add(obj2);
-        Favorites obj3 = new Favorites();
-        obj3.placeIdentifier = 200;
-        obj3.placeName = "School";
-        obj3.placeAddress = "Street #35 i/8 islamabad";
-        list.add(obj3);
-        Favorites last = new Favorites();
-        last.placeIdentifier = 100;
-        last.placeName = "Add More";
-        last.placeAddress = "";
-        list.add(last);
-        return list;
-
+        prepareListView();
     }
 
     private void init() {
@@ -82,9 +44,7 @@ public class ActivityFavorites extends Activity implements View.OnClickListener 
     }
 
     private void initListeners() {
-
         btnAddFavorite.setOnClickListener(this);
-
     }
 
     @Override
@@ -95,5 +55,52 @@ public class ActivityFavorites extends Activity implements View.OnClickListener 
                 startActivity(new Intent(ActivityFavorites.this, ActivityAddFavorite.class));
                 break;
         }
+    }
+
+    @Override
+    public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+        FavoriteItem favoriteItem = (FavoriteItem) view.getTag();
+        if(favoriteItem.placeIdentifier == 100) {
+            Intent intent = new Intent(ActivityFavorites.this, ActivityAddFavorite.class);
+            intent.putExtra("placeName", favoriteItem.placeName);
+            intent.putExtra("placeAddress", favoriteItem.placeAddress);
+            intent.putExtra("placeIdentifier", favoriteItem.placeIdentifier);
+            startActivity(intent);
+        } else {
+            CommonUtilities.toastShort(ActivityFavorites.this, "Pickup screen is under development");
+        }
+    }
+
+    private void prepareListView() {
+        // TODO need to replace sample data with real time user inputs
+        adapter = new FavoritesListAdapter(this, setDummyList());
+        lvFavorite.setAdapter(adapter);
+        lvFavorite.setOnItemClickListener(this);
+    }
+
+    private Favorites setDummyList() {
+        Favorites favorites = new Favorites();
+
+        FavoriteItem obj1 = new FavoriteItem();
+        obj1.placeIdentifier = 100;
+        obj1.placeName = "Home";
+        obj1.placeAddress = "";
+        favorites.listFavItems.add(obj1);
+        FavoriteItem obj2 = new FavoriteItem();
+        obj2.placeIdentifier = 200;
+        obj2.placeName = "Office";
+        obj2.placeAddress = "h/12 Islamabad";
+        favorites.listFavItems.add(obj2);
+        FavoriteItem obj3 = new FavoriteItem();
+        obj3.placeIdentifier = 200;
+        obj3.placeName = "School";
+        obj3.placeAddress = "Street #35 i/8 islamabad";
+        favorites.listFavItems.add(obj3);
+        FavoriteItem last = new FavoriteItem();
+        last.placeIdentifier = 100;
+        last.placeName = "Add More";
+        last.placeAddress = "";
+        favorites.listFavItems.add(last);
+        return favorites;
     }
 }

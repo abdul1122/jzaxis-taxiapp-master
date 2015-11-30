@@ -23,15 +23,21 @@
             android:id="@+id/tv_item_fav_place_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="GYM"
-            android:textSize="20sp" />
+            android:text="Place Name"
+            android:textSize="18sp"
+            android:textColor="#000000"
+            android:textStyle="bold"
+            android:singleLine="true"
+            android:ellipsize="end"/>
         <TextView
             android:id="@+id/tv_item_favorite_place_address"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="3dp"
-            android:text="i/10 islamabad"
-            android:textSize="20sp"
+            android:text="Place Address"
+            android:textSize="16sp"
+            android:singleLine="true"
+            android:ellipsize="end"
             android:visibility="visible" />
     </LinearLayout>
 </LinearLayout>

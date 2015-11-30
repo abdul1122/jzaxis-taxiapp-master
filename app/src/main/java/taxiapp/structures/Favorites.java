@@ -1,10 +1,10 @@
 package taxiapp.structures;
 
+import java.util.ArrayList;
+
 /**
- * Created by Nisar on 11/29/2015.
+ * Created by hassanjamil on 2015-12-01.
  */
 public class Favorites {
-    public int placeIdentifier;
-    public String placeName;
-    public String placeAddress;
+    public ArrayList<FavoriteItem> listFavItems = new ArrayList<FavoriteItem>();
 }

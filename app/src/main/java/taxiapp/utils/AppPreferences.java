@@ -4,7 +4,10 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
 import com.example.taxiapp.MainActivity;
+import com.google.gson.Gson;
 
+import taxiapp.structures.FavoriteItem;
+import taxiapp.structures.Favorites;
 import taxiapp.structures.UserDetails;
 
 public class AppPreferences {
@@ -22,6 +25,8 @@ public class AppPreferences {
 	private static final String KEY_USER_CITY = "pref_key_user_city";
 	private static final String KEY_USER_REFERRAL_CODE = "pref_key_user_referral_code";
 	private static final String KEY_USER_LOGGED_IN = "pref_key_user_logged_in";
+
+	private static final String KEY_FAVORITES = "pref_key_favorites_item";
 
 	public AppPreferences(Context context) {
 		mContext= context;
@@ -41,6 +46,35 @@ public class AppPreferences {
 		mEditor.putString(KEY_USER_REFERRAL_CODE, userDetails.referal_code);
 		mEditor.putBoolean(KEY_USER_LOGGED_IN, true);
 		mEditor.commit();
+	}
+
+	public void addFavorites(FavoriteItem favoriteItem) {
+		if(mPreferences.contains(KEY_FAVORITES)) {
+			String strObject = mPreferences.getString(KEY_FAVORITES, null);
+			if(strObject != null) {
+				Favorites favoritesObj = (new Gson()).fromJson(strObject, Favorites.class);
+				favoritesObj.listFavItems.add(favoriteItem);
+				String strObj = (new Gson()).toJson(favoritesObj);
+				mEditor.putString(KEY_FAVORITES, strObj);
+			}
+		} else {
+			Favorites favoritesObj = new Favorites();
+			favoritesObj.listFavItems.add(favoriteItem);
+			String strObj = (new Gson()).toJson(favoritesObj);
+			mEditor.putString(KEY_FAVORITES, strObj);
+		}
+	}
+
+	public Favorites getFavorites() {
+		Favorites favoritesObj = null;
+		if(mPreferences.contains(KEY_FAVORITES)) {
+			String strObject = mPreferences.getString(KEY_FAVORITES, null);
+			if(strObject != null)
+				favoritesObj = (new Gson()).fromJson(strObject, Favorites.class);
+		} else {
+			favoritesObj = null;
+		}
+		return null;
 	}
 
 	public UserDetails getLoginSession() {

@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -55,8 +56,21 @@ public class ActivityLogin extends Activity implements View.OnClickListener {
         switch(id) {
             case R.id.btn_login_login:
                 Login login = new Login();
-                login.email = etEmail.getText().toString();
-                login.password = etPassword.getText().toString();
+                if (TextUtils.isEmpty(etEmail.getText().toString())) {
+                    etEmail.requestFocus();
+                    etEmail.setError(etEmail.getHint().toString()+" is missing");
+                    return ;
+                } else {
+                    login.email = etEmail.getText().toString();
+                }
+                if (TextUtils.isEmpty(etPassword.getText().toString())) {
+                    etPassword.requestFocus();
+                    etPassword.setError(etPassword.getHint().toString()+" is missing");
+                    return ;
+                } else {
+                    login.password = etPassword.getText().toString();
+                }
+
                 performLoginTask(login);
                 break;
             case R.id.btn_login_signup:

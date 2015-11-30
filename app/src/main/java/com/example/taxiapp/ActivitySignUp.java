@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -22,11 +23,12 @@ import taxiapp.structures.SignUp;
 import taxiapp.structures.UserDetails;
 import taxiapp.utils.CommonUtilities;
 
-public class ActivitySignUp extends Activity implements View.OnClickListener{
+public class ActivitySignUp extends Activity implements View.OnClickListener {
 
-    String firstName,lastName,phoneNumber,email,password,city,referralCode;
+    String firstName, lastName, phoneNumber, email, password, city, referralCode;
     EditText etFirstName, etLastName, etPhoneNumber, etEmail, etPassword, etCity, etReferralNo;
     Button btnSignUp;
+    private SignUp signUp = new SignUp();
     public static String TAG = ActivitySignUp.class.getSimpleName();
 
     @Override
@@ -37,15 +39,15 @@ public class ActivitySignUp extends Activity implements View.OnClickListener{
         initListeners();
     }
 
-    private void init(){
-        etFirstName =(EditText)findViewById(R.id.et_signup_firstName);
-        etLastName =(EditText)findViewById(R.id.et_signup_lastName);
-        etPhoneNumber =(EditText)findViewById(R.id.et_signup_phoneNumber);
-        etEmail =(EditText)findViewById(R.id.et_signup_email);
-        etPassword =(EditText)findViewById(R.id.et_signup_password);
-        etCity =(EditText)findViewById(R.id.et_signup_city);
-        etReferralNo =(EditText)findViewById(R.id.et_signup_referralCode);
-        btnSignUp =(Button) findViewById(R.id.btn_signup_signUp);
+    private void init() {
+        etFirstName = (EditText) findViewById(R.id.et_signup_firstName);
+        etLastName = (EditText) findViewById(R.id.et_signup_lastName);
+        etPhoneNumber = (EditText) findViewById(R.id.et_signup_phoneNumber);
+        etEmail = (EditText) findViewById(R.id.et_signup_email);
+        etPassword = (EditText) findViewById(R.id.et_signup_password);
+        etCity = (EditText) findViewById(R.id.et_signup_city);
+        etReferralNo = (EditText) findViewById(R.id.et_signup_referralCode);
+        btnSignUp = (Button) findViewById(R.id.btn_signup_signUp);
     }
 
     private void initListeners() {
@@ -57,27 +59,83 @@ public class ActivitySignUp extends Activity implements View.OnClickListener{
         int id = view.getId();
         switch (id) {
             case R.id.btn_signup_signUp:
-                SignUp signUp = new SignUp();
-                signUp.firstName = etFirstName.getText().toString();
-                signUp.lastName = etLastName.getText().toString();
-                signUp.email = etEmail.getText().toString();
-                signUp.phoneNumber = etPhoneNumber.getText().toString();
-                signUp.password = etPassword.getText().toString();
-                signUp.city = etCity.getText().toString();
-                signUp.referralCode = etReferralNo.getText().toString();
-                performSignUpTask(signUp);
+                Boolean isValid = createSignUpModel();
+                if (isValid) {
+                    performSignUpTask(signUp);
+                }
                 break;
         }
     }
 
-    /** Tag used to associate with the request to server,
-     * also we can cancel the request associated with this tag. */
+    private Boolean createSignUpModel() {
+        signUp=new SignUp();
+        Boolean isValid = false;
+        if (TextUtils.isEmpty(etFirstName.getText().toString())) {
+            etFirstName.requestFocus();
+            etFirstName.setError(etFirstName.getHint().toString() + " is missing");
+            return isValid;
+        } else {
+            signUp.firstName = etFirstName.getText().toString();
+        }
+        if (TextUtils.isEmpty(etLastName.getText().toString())) {
+            etLastName.requestFocus();
+            etLastName.setError(etLastName.getHint().toString() + " is missing");
+            return isValid;
+        } else {
+            signUp.lastName = etLastName.getText().toString();
+        }
+        if (TextUtils.isEmpty(etPhoneNumber.getText().toString())) {
+            etPhoneNumber.requestFocus();
+            etPhoneNumber.setError(etPhoneNumber.getHint().toString() + " is missing");
+            return isValid;
+        } else {
+            signUp.phoneNumber = etPhoneNumber.getText().toString();
+        }
+        if (TextUtils.isEmpty(etEmail.getText().toString())) {
+            etEmail.requestFocus();
+            etEmail.setError(etEmail.getHint().toString() + " is missing");
+            return isValid;
+        } else {
+            signUp.email = etEmail.getText().toString();
+        }
+
+        if (TextUtils.isEmpty(etPassword.getText().toString())) {
+            etPassword.requestFocus();
+            etPassword.setError(etPassword.getHint().toString() + " is missing");
+            return isValid;
+        } else {
+            signUp.password = etPassword.getText().toString();
+        }
+        if (TextUtils.isEmpty(etCity.getText().toString())) {
+            etCity.requestFocus();
+            etCity.setError(etCity.getHint().toString() + " is missing");
+            return isValid;
+        } else {
+            signUp.city = etCity.getText().toString();
+        }
+        if (TextUtils.isEmpty(etReferralNo.getText().toString())) {
+            etReferralNo.requestFocus();
+            etReferralNo.setError(etReferralNo.getHint().toString() + " is missing");
+            return isValid;
+        } else {
+            isValid = true;
+            signUp.referralCode = etReferralNo.getText().toString();
+        }
+        return isValid;
+
+    }
+
+    /**
+     * Tag used to associate with the request to server,
+     * also we can cancel the request associated with this tag.
+     */
     public static final String SERVICE_REQ_TAG_SIGN_UP = "request_server_for_sign_up";
     public static String SERVICE_URL_SIGNUP = null;
+
     private void performSignUpTask(SignUp signUp) {
-        SERVICE_URL_SIGNUP = URLConstants.SERVICE_URL_SIGNUP + "?txt_first_name="+signUp.firstName+
-                "&txt_last_name="+signUp.lastName+"&txt_email="+signUp.email+"&txt_mobile="+signUp.phoneNumber+
-                "&txt_city="+signUp.city+"&txt_password="+signUp.password+"&txt_referal_code="+signUp.referralCode;
+        SERVICE_URL_SIGNUP = URLConstants.SERVICE_URL_SIGNUP + "?txt_first_name=" + signUp.firstName +
+                "&txt_last_name=" + signUp.lastName + "&txt_email=" + signUp.email + "&txt_mobile=" + signUp.phoneNumber +
+                "&txt_city=" + signUp.city + "&txt_password=" + signUp.password + "&txt_referal_code=" + signUp.referralCode;
         Log.i(TAG, "performSignUpTask() URL: " + SERVICE_URL_SIGNUP);
 
         final ProgressDialog pDialog = new ProgressDialog(this);
@@ -103,7 +161,7 @@ public class ActivitySignUp extends Activity implements View.OnClickListener{
                             if (response.startsWith("{") && response.endsWith("}")) {
                                 JSONObject jsonObject = new JSONObject(response);
                                 success = jsonObject.getInt("success");
-                                if(success == 0) {
+                                if (success == 0) {
                                     CommonUtilities.toastShort(ActivitySignUp.this, "Sign up failed");
                                 } else {
                                     /*UserDetails userDetails = (new Gson()).fromJson(jsonObject.getJSONArray("apps")
@@ -122,8 +180,7 @@ public class ActivitySignUp extends Activity implements View.OnClickListener{
                                 }
                             }
                             Log.i(TAG, "performSignUpTask() - Response: " + response);
-                        }
-                        catch (Exception e) {
+                        } catch (Exception e) {
                             e.printStackTrace();
                         }
                         pDialog.hide();

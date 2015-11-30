@@ -72,9 +72,15 @@ public class FavoritesListAdapter extends BaseAdapter{
         //Setting values
         Favorites dataObj = getItem(position);
 
-        holder.tvFavPlaceName.setText(dataObj.placeName);
-        holder.tvFavPlaceAddress.setText(dataObj.placeAddress);
+        if(dataObj.placeIdentifier!=100) {
+            holder.tvFavPlaceName.setText(dataObj.placeName);
+            holder.tvFavPlaceAddress.setText(dataObj.placeAddress);
+        }else {
+            holder.tvFavPlaceAddress.setVisibility(View.GONE);
+            holder.ivFavIcon.setImageResource(android.R.drawable.ic_menu_add);
+        }
         //holder.ivFavIcon.setImageResource(R.drawable.logo);
+        row.setTag(dataObj);
         return row;
     }
 

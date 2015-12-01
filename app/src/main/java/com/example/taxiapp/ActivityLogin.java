@@ -22,6 +22,7 @@ import taxiapp.constants.URLConstants;
 import taxiapp.structures.Login;
 import taxiapp.structures.UserDetails;
 import taxiapp.utils.CommonUtilities;
+import taxiapp.utils.GenericTextWatcher;
 
 public class ActivityLogin extends Activity implements View.OnClickListener {
 
@@ -48,6 +49,8 @@ public class ActivityLogin extends Activity implements View.OnClickListener {
     private void initListeners() {
         btnLogin.setOnClickListener(this);
         btnSignup.setOnClickListener(this);
+        etEmail.addTextChangedListener(new GenericTextWatcher(etEmail));
+        etPassword.addTextChangedListener(new GenericTextWatcher(etPassword));
     }
 
     @Override

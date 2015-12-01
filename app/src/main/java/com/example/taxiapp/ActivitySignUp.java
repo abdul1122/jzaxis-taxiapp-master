@@ -4,7 +4,9 @@ import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.Editable;
 import android.text.TextUtils;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -22,6 +24,7 @@ import taxiapp.constants.URLConstants;
 import taxiapp.structures.SignUp;
 import taxiapp.structures.UserDetails;
 import taxiapp.utils.CommonUtilities;
+import taxiapp.utils.GenericTextWatcher;
 
 public class ActivitySignUp extends Activity implements View.OnClickListener {
 
@@ -52,6 +55,13 @@ public class ActivitySignUp extends Activity implements View.OnClickListener {
 
     private void initListeners() {
         btnSignUp.setOnClickListener(this);
+        etFirstName.addTextChangedListener(new GenericTextWatcher(etFirstName));
+        etLastName.addTextChangedListener(new GenericTextWatcher(etLastName));
+        etPhoneNumber.addTextChangedListener(new GenericTextWatcher(etPhoneNumber));
+        etEmail.addTextChangedListener(new GenericTextWatcher(etEmail));
+        etPassword.addTextChangedListener(new GenericTextWatcher(etPassword));
+        etCity.addTextChangedListener(new GenericTextWatcher(etCity));
+        etReferralNo.addTextChangedListener(new GenericTextWatcher(etReferralNo));
     }
 
     @Override
@@ -75,6 +85,7 @@ public class ActivitySignUp extends Activity implements View.OnClickListener {
             etFirstName.setError(etFirstName.getHint().toString() + " is missing");
             return isValid;
         } else {
+            etFirstName.setError(null);
             signUp.firstName = etFirstName.getText().toString();
         }
         if (TextUtils.isEmpty(etLastName.getText().toString())) {
@@ -82,6 +93,7 @@ public class ActivitySignUp extends Activity implements View.OnClickListener {
             etLastName.setError(etLastName.getHint().toString() + " is missing");
             return isValid;
         } else {
+            etLastName.setError(null);
             signUp.lastName = etLastName.getText().toString();
         }
         if (TextUtils.isEmpty(etPhoneNumber.getText().toString())) {
@@ -89,6 +101,7 @@ public class ActivitySignUp extends Activity implements View.OnClickListener {
             etPhoneNumber.setError(etPhoneNumber.getHint().toString() + " is missing");
             return isValid;
         } else {
+            etPhoneNumber.setError(null);
             signUp.phoneNumber = etPhoneNumber.getText().toString();
         }
         if (TextUtils.isEmpty(etEmail.getText().toString())) {
@@ -96,6 +109,7 @@ public class ActivitySignUp extends Activity implements View.OnClickListener {
             etEmail.setError(etEmail.getHint().toString() + " is missing");
             return isValid;
         } else {
+            etEmail.setError(null);
             signUp.email = etEmail.getText().toString();
         }
 
@@ -104,6 +118,7 @@ public class ActivitySignUp extends Activity implements View.OnClickListener {
             etPassword.setError(etPassword.getHint().toString() + " is missing");
             return isValid;
         } else {
+            etPassword.setError(null);
             signUp.password = etPassword.getText().toString();
         }
         if (TextUtils.isEmpty(etCity.getText().toString())) {
@@ -111,6 +126,7 @@ public class ActivitySignUp extends Activity implements View.OnClickListener {
             etCity.setError(etCity.getHint().toString() + " is missing");
             return isValid;
         } else {
+            etCity.setError(null);
             signUp.city = etCity.getText().toString();
         }
         if (TextUtils.isEmpty(etReferralNo.getText().toString())) {
@@ -118,6 +134,7 @@ public class ActivitySignUp extends Activity implements View.OnClickListener {
             etReferralNo.setError(etReferralNo.getHint().toString() + " is missing");
             return isValid;
         } else {
+            etReferralNo.setError(null);
             isValid = true;
             signUp.referralCode = etReferralNo.getText().toString();
         }
@@ -220,4 +237,33 @@ public class ActivitySignUp extends Activity implements View.OnClickListener {
             return null;
         }
     }
+
+
+
+//    private class GenericTextWatcher implements TextWatcher {
+//
+//        private View view;
+//        private GenericTextWatcher(View view) {
+//            this.view = view;
+//        }
+//
+//        public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+//          //  etFirstName, etLastName, etPhoneNumber, etEmail, etPassword, etCity, etReferralNo;
+//            etFirstName.setError(null);
+//            etLastName.setError(null);
+//            etPhoneNumber.setError(null);
+//            etEmail.setError(null);
+//            etPassword.setError(null);
+//            etCity.setError(null);
+//            etReferralNo.setError(null);
+//
+//        }
+//        public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {}
+//
+//        public void afterTextChanged(Editable editable) {
+//            String text = editable.toString();
+//
+//        }
+//    }
+
 }

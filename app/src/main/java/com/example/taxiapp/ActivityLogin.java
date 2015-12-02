@@ -168,4 +168,12 @@ public class ActivityLogin extends Activity implements View.OnClickListener {
             return null;
         }
     }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+
+        startActivity(new Intent(ActivityLogin.this, ActivitySplash.class));
+        finish();
+    }
 }

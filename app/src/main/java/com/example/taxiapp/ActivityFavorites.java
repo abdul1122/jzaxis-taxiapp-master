@@ -72,10 +72,13 @@ public class ActivityFavorites extends Activity implements View.OnClickListener,
     }
 
     private void prepareListView() {
-        // TODO need to replace sample data with real time user inputs
-        adapter = new FavoritesListAdapter(this, setDummyList());
-        lvFavorite.setAdapter(adapter);
-        lvFavorite.setOnItemClickListener(this);
+        // TODO Need to check the favorites response from preferences and then have to work for Add fav screen
+        //Favorites favorites = MyApplication.getInstance().getAppPreferences().getFavorites();
+        //if(favorites != null) {
+            adapter = new FavoritesListAdapter(this, setDummyList());
+            lvFavorite.setAdapter(adapter);
+            lvFavorite.setOnItemClickListener(this);
+        //}
     }
 
     private Favorites setDummyList() {

@@ -238,9 +238,15 @@ public class ActivitySignUp extends Activity implements View.OnClickListener {
         }
     }
 
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
 
+        startActivity(new Intent(ActivitySignUp.this, ActivitySplash.class));
+        finish();
+    }
 
-//    private class GenericTextWatcher implements TextWatcher {
+    //    private class GenericTextWatcher implements TextWatcher {
 //
 //        private View view;
 //        private GenericTextWatcher(View view) {

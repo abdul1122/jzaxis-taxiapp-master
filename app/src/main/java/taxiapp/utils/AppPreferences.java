@@ -6,6 +6,7 @@ import android.content.SharedPreferences.Editor;
 import com.example.taxiapp.MainActivity;
 import com.google.gson.Gson;
 
+import taxiapp.constants.AppConstants;
 import taxiapp.structures.FavoriteItem;
 import taxiapp.structures.Favorites;
 import taxiapp.structures.UserDetails;
@@ -50,31 +51,53 @@ public class AppPreferences {
 
 	public void addFavorites(FavoriteItem favoriteItem) {
 		if(mPreferences.contains(KEY_FAVORITES)) {
-			String strObject = mPreferences.getString(KEY_FAVORITES, null);
-			if(strObject != null) {
-				Favorites favoritesObj = (new Gson()).fromJson(strObject, Favorites.class);
-				favoritesObj.listFavItems.add(favoriteItem);
+			String strFavorites = mPreferences.getString(KEY_FAVORITES, null);
+			if(strFavorites != null) {
+				Favorites favoritesObj = (new Gson()).fromJson(strFavorites, Favorites.class);
+				favoritesObj = replaceOrAddFavItem(favoritesObj, favoriteItem);
 				String strObj = (new Gson()).toJson(favoritesObj);
 				mEditor.putString(KEY_FAVORITES, strObj);
 			}
 		} else {
 			Favorites favoritesObj = new Favorites();
-			favoritesObj.listFavItems.add(favoriteItem);
+			favoritesObj = replaceOrAddFavItem(favoritesObj, favoriteItem);
 			String strObj = (new Gson()).toJson(favoritesObj);
 			mEditor.putString(KEY_FAVORITES, strObj);
 		}
 	}
 
+	private Favorites replaceOrAddFavItem(Favorites destFavorites, FavoriteItem srcFavItem) {
+		boolean isReplaced = false;
+		for(int i = 0; i < destFavorites.listFavItems.size(); i++) {
+			if(destFavorites.listFavItems.get(i).placeName.equals(srcFavItem.placeName) &&
+					srcFavItem.placeIdentifier == 100) {
+				destFavorites.listFavItems.add(i, srcFavItem);
+				isReplaced = true;
+				break;
+			}
+		}
+
+		if(!isReplaced)
+			destFavorites.listFavItems.add(srcFavItem);
+
+		return destFavorites;
+	}
+
 	public Favorites getFavorites() {
 		Favorites favoritesObj = null;
+		if(!mPreferences.contains(KEY_FAVORITES)) {
+			// Return 3 basic items as on application start
+			addFavorites(new FavoriteItem().setPlaceIdentifier(100).setPlaceName(AppConstants.STR_FAV_ITEM_HOME));
+			addFavorites(new FavoriteItem().setPlaceIdentifier(100).setPlaceName(AppConstants.STR_FAV_ITEM_OFFICE));
+			addFavorites(new FavoriteItem().setPlaceIdentifier(100).setPlaceName(AppConstants.STR_FAV_ITEM_ADD_MORE));
+		}
+
 		if(mPreferences.contains(KEY_FAVORITES)) {
 			String strObject = mPreferences.getString(KEY_FAVORITES, null);
 			if(strObject != null)
 				favoritesObj = (new Gson()).fromJson(strObject, Favorites.class);
-		} else {
-			favoritesObj = null;
 		}
-		return null;
+		return favoritesObj;
 	}
 
 	public UserDetails getLoginSession() {

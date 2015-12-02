@@ -30,8 +30,7 @@ public class FavoritesListAdapter extends BaseAdapter{
     }
 
     @Override
-    public int getCount()
-    {
+    public int getCount() {
         return mFavorites.listFavItems.size();
     }
 

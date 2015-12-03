@@ -27,7 +27,7 @@ import taxiapp.utils.GenericTextWatcher;
 public class ActivityLogin extends Activity implements View.OnClickListener {
 
     EditText etEmail, etPassword;
-    Button btnLogin, btnSignup;
+    Button btnLogin;
     public static String TAG = ActivityLogin.class.getSimpleName();
 
     @Override
@@ -40,15 +40,13 @@ public class ActivityLogin extends Activity implements View.OnClickListener {
     }
 
     private void init() {
-        etEmail =(EditText)findViewById(R.id.et_login_email);
-        etPassword =(EditText)findViewById(R.id.et_login_password);
-        btnLogin =(Button) findViewById(R.id.btn_login_login);
-        btnSignup =(Button) findViewById(R.id.btn_login_signup);
+        etEmail = (EditText) findViewById(R.id.et_login_email);
+        etPassword = (EditText) findViewById(R.id.et_login_password);
+        btnLogin = (Button) findViewById(R.id.btn_login_login);
     }
 
     private void initListeners() {
         btnLogin.setOnClickListener(this);
-        btnSignup.setOnClickListener(this);
         etEmail.addTextChangedListener(new GenericTextWatcher(etEmail));
         etPassword.addTextChangedListener(new GenericTextWatcher(etPassword));
     }
@@ -76,10 +74,7 @@ public class ActivityLogin extends Activity implements View.OnClickListener {
 
                 performLoginTask(login);
                 break;
-            case R.id.btn_login_signup:
-                finish();
-                startActivity(new Intent(ActivityLogin.this, ActivitySignUp.class));
-                break;
+
         }
     }
 

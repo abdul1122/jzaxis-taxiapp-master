@@ -3,36 +3,46 @@ package com.example.taxiapp;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.ImageButton;
 
-import taxiapp.structures.SignUp;
-
-public class ActivitySplash extends Activity
+public class ActivitySplash extends Activity implements View.OnClickListener
 {
 	private static final String TAG = ActivitySplash.class.getSimpleName();
-
+	ImageButton btnSignIn,btnSignup;
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_splash);
-		
-		new Thread(new Runnable() {
-			@Override
-			public void run() 
-			{
-				try {
-					Thread.sleep(3000);
+		init();
+		initListeners();
 
-					if(!MyApplication.getInstance().getAppPreferences().isUserLoggedIn())
-						startActivity(new Intent(ActivitySplash.this, ActivityLogin.class));
-					else
-						startActivity(new Intent(ActivitySplash.this, ActivityFavorites.class));
+		if(!MyApplication.getInstance().getAppPreferences().isUserLoggedIn()){}
+		else
+			startActivity(new Intent(ActivitySplash.this, ActivityFavorites.class));
+	}
+	private void init(){
 
-					finish();
-				} catch (InterruptedException e) {
-					e.printStackTrace();
-					return;
-				}
-			}
-		}).start();
+		btnSignIn=(ImageButton)findViewById(R.id.btn_splash_signin);
+		btnSignup=(ImageButton)findViewById(R.id.btn_splash_signup);
+
+
+	}
+	private void initListeners() {
+		btnSignIn.setOnClickListener(this);
+		btnSignup.setOnClickListener(this);
+	}
+
+	@Override
+	public void onClick(View view) {
+		int id  = view.getId();
+		switch(id) {
+			case R.id.btn_splash_signin:
+				startActivity(new Intent(ActivitySplash.this, ActivityLogin.class));
+				break;
+			case R.id.btn_splash_signup:
+				startActivity(new Intent(ActivitySplash.this, ActivitySignUp.class));
+				break;
+		}
 	}
 }

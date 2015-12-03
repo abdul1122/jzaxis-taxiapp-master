@@ -6,23 +6,10 @@
     android:gravity="center"
     android:clickable="false"
     android:focusable="false"
-    android:background="#ffffff"
+    android:background="@drawable/bg"
     android:weightSum="100">
 
-    <LinearLayout
-        android:id="@+id/rl_login_logoheader"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="50"
-        android:orientation="vertical"
-        android:padding="10dp"
-        android:layout_marginTop="0dp"
-        android:gravity="center">
-        <ImageView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:src="@drawable/logo"/>
-    </LinearLayout>
+
 
     <LinearLayout
         android:id="@+id/rl_login_fields"
@@ -62,39 +49,25 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@+id/tableLayout_login"
-            android:layout_marginTop="10dp"
+            android:layout_marginTop="40dp"
             android:layout_marginBottom="20dp"
+            android:textColor="@android:color/white"
+            android:background="@drawable/btn_signup"
             android:layout_centerHorizontal="true"
             android:padding="5dp"
             android:text="Login"
             android:textSize="16sp"
             android:textStyle="bold"/>
-
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="22sp"
+            android:text="Forget Password?"
+            android:id="@+id/textView"
+            android:layout_gravity="center_horizontal" />
     </LinearLayout>
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="10"
-        android:orientation="horizontal"
-        android:layout_below="@+id/rl_login_fields"
-        android:layout_alignParentBottom="true"
-        android:background="#80000000">
 
-        <Button
-            android:id="@+id/btn_login_signup"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:gravity="center"
-            android:padding="5dp"
-            android:text="Sign Up"
-            android:layout_alignParentLeft="true"
-            android:textSize="16sp"
-            android:textStyle="bold"
-            android:textColor="#ffffff"
-            android:background="@android:color/transparent"/>
 
-    </LinearLayout>
 
 </LinearLayout>

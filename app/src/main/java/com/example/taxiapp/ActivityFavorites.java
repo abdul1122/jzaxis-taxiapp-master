@@ -35,6 +35,12 @@ public class ActivityFavorites extends Activity implements View.OnClickListener,
 
         init();
         initListeners();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+
         prepareListView();
     }
 
@@ -62,9 +68,7 @@ public class ActivityFavorites extends Activity implements View.OnClickListener,
         FavoriteItem favoriteItem = (FavoriteItem) view.getTag();
         if(favoriteItem.placeIdentifier == 100) {
             Intent intent = new Intent(ActivityFavorites.this, ActivityAddFavorite.class);
-            intent.putExtra("placeName", favoriteItem.placeName);
-            intent.putExtra("placeAddress", favoriteItem.placeAddress);
-            intent.putExtra("placeIdentifier", favoriteItem.placeIdentifier);
+            intent.putExtra("dataObj", favoriteItem);
             startActivity(intent);
         } else {
             CommonUtilities.toastShort(ActivityFavorites.this, "Pickup screen is under development");
@@ -72,13 +76,12 @@ public class ActivityFavorites extends Activity implements View.OnClickListener,
     }
 
     private void prepareListView() {
-        // TODO Need to check the favorites response from preferences and then have to work for Add fav screen
-        //Favorites favorites = MyApplication.getInstance().getAppPreferences().getFavorites();
-        //if(favorites != null) {
-            adapter = new FavoritesListAdapter(this, setDummyList());
+        Favorites favorites = MyApplication.getInstance().getAppPreferences().getFavorites();
+        if(favorites != null) {
+            adapter = new FavoritesListAdapter(this, favorites);
             lvFavorite.setAdapter(adapter);
             lvFavorite.setOnItemClickListener(this);
-        //}
+        }
     }
 
     private Favorites setDummyList() {

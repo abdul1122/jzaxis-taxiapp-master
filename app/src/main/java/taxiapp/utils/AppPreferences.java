@@ -50,19 +50,21 @@ public class AppPreferences {
 	}
 
 	public void addFavorites(FavoriteItem favoriteItem) {
+		Favorites favoritesObj = null;
 		if(mPreferences.contains(KEY_FAVORITES)) {
 			String strFavorites = mPreferences.getString(KEY_FAVORITES, null);
 			if(strFavorites != null) {
-				Favorites favoritesObj = (new Gson()).fromJson(strFavorites, Favorites.class);
-				favoritesObj = replaceOrAddFavItem(favoritesObj, favoriteItem);
-				String strObj = (new Gson()).toJson(favoritesObj);
-				mEditor.putString(KEY_FAVORITES, strObj);
+				favoritesObj = (new Gson()).fromJson(strFavorites, Favorites.class);
 			}
 		} else {
-			Favorites favoritesObj = new Favorites();
+			favoritesObj = new Favorites();
+		}
+
+		if(favoritesObj != null) {
 			favoritesObj = replaceOrAddFavItem(favoritesObj, favoriteItem);
 			String strObj = (new Gson()).toJson(favoritesObj);
 			mEditor.putString(KEY_FAVORITES, strObj);
+			mEditor.commit();
 		}
 	}
 

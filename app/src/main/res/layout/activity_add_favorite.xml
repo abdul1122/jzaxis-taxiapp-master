@@ -22,23 +22,27 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:layout_marginTop="15dp">
+            android:layout_marginTop="15dp"
+            android:orientation="horizontal"
+            android:weightSum="100">
 
             <EditText
                 android:id="@+id/et_add_fav_lat"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginRight="10dp"
                 android:hint="Latitude"
-                android:textSize="20sp" />
+                android:textSize="20sp"
+                android:layout_weight="50"/>
 
             <EditText
                 android:id="@+id/et_add_fav_lon"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="10dp"
                 android:hint="Longitude"
-                android:textSize="20sp" />
+                android:textSize="20sp"
+                android:layout_weight="50"/>
         </LinearLayout>
 
         <Button
@@ -50,12 +54,24 @@
             android:text="Show On Map" />
 
 
-        <fragment
-            android:id="@+id/map_add_favorite"
-            android:name="com.google.android.gms.maps.MapFragment"
+        <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_marginTop="10dp"/>
+            android:layout_marginTop="10dp">
+            <fragment
+                android:id="@+id/map_add_favorite"
+                android:name="com.google.android.gms.maps.MapFragment"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"/>
+            <TextView
+                android:id="@+id/tv_add_fav_address"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="16sp"
+                android:maxLines="3"
+                android:ellipsize="end"/>
+        </RelativeLayout>
+
 
     </LinearLayout>
 

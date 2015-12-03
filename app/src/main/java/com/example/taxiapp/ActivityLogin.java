@@ -22,6 +22,7 @@ import taxiapp.constants.URLConstants;
 import taxiapp.structures.Login;
 import taxiapp.structures.UserDetails;
 import taxiapp.utils.CommonUtilities;
+import taxiapp.utils.EditTextUtils;
 import taxiapp.utils.GenericTextWatcher;
 
 public class ActivityLogin extends Activity implements View.OnClickListener {
@@ -56,26 +57,21 @@ public class ActivityLogin extends Activity implements View.OnClickListener {
         int id  = view.getId();
         switch(id) {
             case R.id.btn_login_login:
-                Login login = new Login();
-                if (TextUtils.isEmpty(etEmail.getText().toString())) {
-                    etEmail.requestFocus();
-                    etEmail.setError(etEmail.getHint().toString()+" is missing");
-                    return ;
-                } else {
-                    login.email = etEmail.getText().toString();
-                }
-                if (TextUtils.isEmpty(etPassword.getText().toString())) {
-                    etPassword.requestFocus();
-                    etPassword.setError(etPassword.getHint().toString()+" is missing");
-                    return ;
-                } else {
-                    login.password = etPassword.getText().toString();
-                }
-
-                performLoginTask(login);
+                loginButtonTasks();
                 break;
-
         }
+    }
+
+    private void loginButtonTasks() {
+        Login login = new Login();
+
+        if(!EditTextUtils.isFieldEmpty(etEmail))
+            login.email = etEmail.getText().toString();
+
+        if(!EditTextUtils.isFieldEmpty(etPassword))
+            login.password = etPassword.getText().toString();
+
+        performLoginTask(login);
     }
 
     /** Tag used to associate with the request to server,

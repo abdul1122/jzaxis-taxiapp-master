@@ -11,14 +11,15 @@ import java.io.Serializable;
  * Created by Nisar on 11/29/2015.
  */
 public class FavoriteItem implements Parcelable {
-    /** 100 for Add favorite <br/>
-     * 200 for Pickup screen */
+    public long itemId = -1;
+    /** 100 for Add favorite <br/> 200 for Pickup screen */
     public int placeIdentifier;
     public String placeName;
     public String placeAddress;
     public LatLng placeLocation;
 
     public FavoriteItem() {
+        itemId = -1;
         this.placeIdentifier = -1;
         this.placeName = "";
         this.placeAddress = "";
@@ -26,6 +27,7 @@ public class FavoriteItem implements Parcelable {
     }
 
     public FavoriteItem(Parcel in) {
+        itemId = in.readLong();
         placeIdentifier = in.readInt();
         placeName =in.readString();
         placeAddress =in.readString();
@@ -38,6 +40,7 @@ public class FavoriteItem implements Parcelable {
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
+        dest.writeLong(itemId);
         dest.writeInt(placeIdentifier);
         dest.writeString(placeName);
         dest.writeString(placeAddress);
@@ -52,6 +55,25 @@ public class FavoriteItem implements Parcelable {
             return new FavoriteItem[size];
         }
     };
+
+
+    public void setFavoriteItemObject(FavoriteItem item) {
+        itemId = item.itemId;
+        placeName = item.placeName;
+        placeIdentifier = item.placeIdentifier;
+        placeAddress = item.placeAddress;
+        placeLocation = item.placeLocation;
+    }
+
+
+    public long getItemId() {
+        return itemId;
+    }
+
+    public FavoriteItem setItemId(long itemId) {
+        this.itemId = itemId;
+        return this;
+    }
 
     public int getPlaceIdentifier() {
         return placeIdentifier;

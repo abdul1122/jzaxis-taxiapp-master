@@ -6,6 +6,8 @@ import android.content.SharedPreferences.Editor;
 import com.example.taxiapp.MainActivity;
 import com.google.gson.Gson;
 
+import java.util.Calendar;
+
 import taxiapp.constants.AppConstants;
 import taxiapp.structures.FavoriteItem;
 import taxiapp.structures.Favorites;
@@ -37,6 +39,9 @@ public class AppPreferences {
 		mEditor.commit();
 	}
 
+	////////////////////////////////////////////////////////////////////////////////////////////////////
+	////////// LOGIN ///////////////////////////////////////////////////////////////////////////////////
+
 	public void setLoginSession(UserDetails userDetails) {
 		mEditor.putString(KEY_USER_ID, userDetails.user_id);
 		mEditor.putString(KEY_USER_FIRST_NAME, userDetails.first_name);
@@ -49,7 +54,38 @@ public class AppPreferences {
 		mEditor.commit();
 	}
 
-	public void addFavorites(FavoriteItem favoriteItem) {
+	public boolean isUserLoggedIn() {
+		return mPreferences.getBoolean(KEY_USER_LOGGED_IN, false);
+	}
+
+	public UserDetails getLoginSession() {
+		UserDetails userDetails = new UserDetails();
+		userDetails.user_id = mPreferences.getString(KEY_USER_ID, null);
+		userDetails.first_name = mPreferences.getString(KEY_USER_FIRST_NAME, null);
+		userDetails.last_name = mPreferences.getString(KEY_USER_LAST_NAME, null);
+		userDetails.email = mPreferences.getString(KEY_USER_EMAIL, null);
+		userDetails.mobile = mPreferences.getString(KEY_USER_PHONE, null);
+		userDetails.city = mPreferences.getString(KEY_USER_CITY, null);
+		userDetails.referal_code = mPreferences.getString(KEY_USER_REFERRAL_CODE, null);
+		return userDetails;
+	}
+
+	public void logoutUser() {
+		mEditor.remove(KEY_USER_ID);
+		mEditor.remove(KEY_USER_FIRST_NAME);
+		mEditor.remove(KEY_USER_LAST_NAME);
+		mEditor.remove(KEY_USER_EMAIL);
+		mEditor.remove(KEY_USER_PHONE);
+		mEditor.remove(KEY_USER_CITY);
+		mEditor.remove(KEY_USER_REFERRAL_CODE);
+		mEditor.remove(KEY_USER_LOGGED_IN);
+		mEditor.commit();
+	}
+
+	/////////////////////////////////////////////////////////////////////////////////////////////////////
+	////////// FAVORITES ////////////////////////////////////////////////////////////////////////////////
+
+	public void addFavoriteItem(FavoriteItem favoriteItem) {
 		Favorites favoritesObj = null;
 		if(mPreferences.contains(KEY_FAVORITES)) {
 			String strFavorites = mPreferences.getString(KEY_FAVORITES, null);
@@ -71,9 +107,8 @@ public class AppPreferences {
 	private Favorites replaceOrAddFavItem(Favorites destFavorites, FavoriteItem srcFavItem) {
 		boolean isReplaced = false;
 		for(int i = 0; i < destFavorites.listFavItems.size(); i++) {
-			if(destFavorites.listFavItems.get(i).placeName.equals(srcFavItem.placeName) &&
-					srcFavItem.placeIdentifier == 100) {
-				destFavorites.listFavItems.add(i, srcFavItem);
+			if(destFavorites.listFavItems.get(i).itemId == srcFavItem.itemId) {
+				destFavorites.listFavItems.get(i).setFavoriteItemObject(srcFavItem);
 				isReplaced = true;
 				break;
 			}
@@ -85,13 +120,26 @@ public class AppPreferences {
 		return destFavorites;
 	}
 
+	public boolean isFavoriteItemExistsForName(Favorites destFavorites, String name) {
+		boolean isExist = false;
+		for(int i = 0; i < destFavorites.listFavItems.size(); i++) {
+			if(destFavorites.listFavItems.get(i).placeName.trim().equalsIgnoreCase(name.trim())
+					&& destFavorites.listFavItems.get(i).placeIdentifier != 100) {
+				isExist = true;
+				break;
+			}
+		}
+		return isExist;
+	}
+
 	public Favorites getFavorites() {
 		Favorites favoritesObj = null;
 		if(!mPreferences.contains(KEY_FAVORITES)) {
-			// Return 3 basic items as on application start
-			addFavorites(new FavoriteItem().setPlaceIdentifier(100).setPlaceName(AppConstants.STR_FAV_ITEM_HOME));
-			addFavorites(new FavoriteItem().setPlaceIdentifier(100).setPlaceName(AppConstants.STR_FAV_ITEM_OFFICE));
-			addFavorites(new FavoriteItem().setPlaceIdentifier(100).setPlaceName(AppConstants.STR_FAV_ITEM_ADD_MORE));
+			// Return 2 basic items as on application start
+			addFavoriteItem(new FavoriteItem().setItemId(System.currentTimeMillis()).setPlaceIdentifier(100)
+					.setPlaceName(AppConstants.STR_FAV_ITEM_HOME));
+			addFavoriteItem(new FavoriteItem().setItemId(System.currentTimeMillis()).setPlaceIdentifier(100)
+					.setPlaceName(AppConstants.STR_FAV_ITEM_OFFICE));
 		}
 
 		if(mPreferences.contains(KEY_FAVORITES)) {
@@ -102,33 +150,8 @@ public class AppPreferences {
 		return favoritesObj;
 	}
 
-	public UserDetails getLoginSession() {
-		UserDetails userDetails = new UserDetails();
-		userDetails.user_id = mPreferences.getString(KEY_USER_ID, null);
-		userDetails.first_name = mPreferences.getString(KEY_USER_FIRST_NAME, null);
-		userDetails.last_name = mPreferences.getString(KEY_USER_LAST_NAME, null);
-		userDetails.email = mPreferences.getString(KEY_USER_EMAIL, null);
-		userDetails.mobile = mPreferences.getString(KEY_USER_PHONE, null);
-		userDetails.city = mPreferences.getString(KEY_USER_CITY, null);
-		userDetails.referal_code = mPreferences.getString(KEY_USER_REFERRAL_CODE, null);
-		return userDetails;
-	}
-
-	public boolean isUserLoggedIn() {
-		return mPreferences.getBoolean(KEY_USER_LOGGED_IN, false);
-	}
-
-	public void logoutUser() {
-		mEditor.remove(KEY_USER_ID);
-		mEditor.remove(KEY_USER_FIRST_NAME);
-		mEditor.remove(KEY_USER_LAST_NAME);
-		mEditor.remove(KEY_USER_EMAIL);
-		mEditor.remove(KEY_USER_PHONE);
-		mEditor.remove(KEY_USER_CITY);
-		mEditor.remove(KEY_USER_REFERRAL_CODE);
-		mEditor.remove(KEY_USER_LOGGED_IN);
-		mEditor.commit();
-	}
+	////////////////////////////////////////////////////////////////////////////////////////////////////
+	//////////// OTHERS ////////////////////////////////////////////////////////////////////////////////
 
 	public void clearPreferences() {
 		mEditor.clear();

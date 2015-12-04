@@ -8,10 +8,8 @@ import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ListView;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import taxiapp.adapters.FavoritesListAdapter;
+import taxiapp.constants.AppConstants;
 import taxiapp.structures.FavoriteItem;
 import taxiapp.structures.Favorites;
 import taxiapp.utils.CommonUtilities;
@@ -22,7 +20,7 @@ import taxiapp.utils.CommonUtilities;
 public class ActivityFavorites extends Activity implements View.OnClickListener,
         AdapterView.OnItemClickListener {
 
-    private Button btnAddFavorite;
+    private Button btnGoToMap;
     private ListView lvFavorite;
     public static final String TAG = ActivityFavorites.class.getSimpleName();
 
@@ -40,25 +38,24 @@ public class ActivityFavorites extends Activity implements View.OnClickListener,
     @Override
     protected void onResume() {
         super.onResume();
-
         prepareListView();
     }
 
     private void init() {
-        btnAddFavorite = (Button) findViewById(R.id.btn_fav_add_favorite);
+        btnGoToMap = (Button) findViewById(R.id.btn_fav_go_to_map);
         lvFavorite = (ListView) findViewById(R.id.lv_favorite);
     }
 
     private void initListeners() {
-        btnAddFavorite.setOnClickListener(this);
+        btnGoToMap.setOnClickListener(this);
     }
 
     @Override
     public void onClick(View view) {
         int id = view.getId();
         switch (id) {
-            case R.id.btn_fav_add_favorite:
-                startActivity(new Intent(ActivityFavorites.this, ActivityAddFavorite.class));
+            case R.id.btn_fav_go_to_map:
+                CommonUtilities.toastShort(ActivityFavorites.this, "Sorry under development");
                 break;
         }
     }
@@ -77,6 +74,10 @@ public class ActivityFavorites extends Activity implements View.OnClickListener,
 
     private void prepareListView() {
         Favorites favorites = MyApplication.getInstance().getAppPreferences().getFavorites();
+        // "Add more" item on run time
+        favorites.listFavItems.add(new FavoriteItem().setItemId(-1).setPlaceIdentifier(100)
+                .setPlaceName(AppConstants.STR_FAV_ITEM_ADD_MORE));
+
         if(favorites != null) {
             adapter = new FavoritesListAdapter(this, favorites);
             lvFavorite.setAdapter(adapter);

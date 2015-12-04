@@ -16,8 +16,10 @@ import com.google.android.gms.maps.MapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 
+import taxiapp.constants.AppConstants;
 import taxiapp.handlers.GeocodeHandler;
 import taxiapp.structures.FavoriteItem;
+import taxiapp.utils.AppPreferences;
 import taxiapp.utils.CommonUtilities;
 import taxiapp.utils.EditTextUtils;
 import taxiapp.utils.GeocoderUtils;
@@ -30,7 +32,7 @@ public class ActivityAddFavorite extends Activity implements View.OnClickListene
     EditText etPlaceName, etLat, etLon;
     Button btnSave, btnShowOnMap;
     TextView tvAddress;
-    private FavoriteItem favoriteItem;
+    private FavoriteItem mFavoriteItem;
     GoogleMap map;
 
     @Override
@@ -61,7 +63,7 @@ public class ActivityAddFavorite extends Activity implements View.OnClickListene
         map.setOnMapClickListener(new GoogleMap.OnMapClickListener() {
             @Override
             public void onMapClick(LatLng latLng) {
-                if(map != null)
+                if (map != null)
                     map.clear();
 
                 etLat.setText("" + String.format("%.4f", latLng.latitude));
@@ -91,8 +93,8 @@ public class ActivityAddFavorite extends Activity implements View.OnClickListene
     private void getIntentExtras() {
         Intent intent = getIntent();
         if(intent != null) {
-            favoriteItem = (FavoriteItem) intent.getParcelableExtra("dataObj");
-            etPlaceName.setText(favoriteItem.placeName);
+            mFavoriteItem = (FavoriteItem) intent.getParcelableExtra("dataObj");
+            etPlaceName.setText(mFavoriteItem.placeName);
         }
     }
 
@@ -129,8 +131,11 @@ public class ActivityAddFavorite extends Activity implements View.OnClickListene
         }
     }
 
+    private FavoriteItem favoriteItem;
     private boolean createFavoriteItemModel() {
         favoriteItem = new FavoriteItem();
+        favoriteItem.itemId = mFavoriteItem.itemId;
+        favoriteItem.placeIdentifier = 200;
         boolean isValid = false;
 
         if(EditTextUtils.isFieldEmpty(etPlaceName)) {
@@ -161,9 +166,34 @@ public class ActivityAddFavorite extends Activity implements View.OnClickListene
     }
 
     private void saveButtonTask() {
-        MyApplication.getInstance().getAppPreferences().addFavorites(favoriteItem);
-        CommonUtilities.toastShort(this, "Item added successfully");
-        finish();
+        String favItemPlaceName = favoriteItem.placeName.trim();
+        AppPreferences appPreferences = MyApplication.getInstance().getAppPreferences();
+
+        if(!(favItemPlaceName.equalsIgnoreCase(AppConstants.STR_FAV_ITEM_HOME))
+                && !(favItemPlaceName.equalsIgnoreCase(AppConstants.STR_FAV_ITEM_OFFICE))
+                && (mFavoriteItem.itemId == -1)) {
+            // Add more item's scenario
+            if (!appPreferences.isFavoriteItemExistsForName(appPreferences.getFavorites(), favoriteItem.placeName)) {
+                appPreferences.addFavoriteItem(favoriteItem.setItemId(System.currentTimeMillis()));
+                CommonUtilities.toastShort(this, "Item added successfully");
+                finish();
+            } else
+                CommonUtilities.toastLong(this, "You already have an item with the above mentioned name");
+        }
+        else
+            if(((favItemPlaceName.equalsIgnoreCase(AppConstants.STR_FAV_ITEM_HOME))
+                    || (favItemPlaceName.equalsIgnoreCase(AppConstants.STR_FAV_ITEM_OFFICE)))
+                    && (mFavoriteItem.itemId != -1)) {
+                // Add home or office item's scenario
+                if (!appPreferences.isFavoriteItemExistsForName(appPreferences.getFavorites(), favoriteItem.placeName)) {
+                    appPreferences.addFavoriteItem(favoriteItem);
+                    CommonUtilities.toastShort(this, "Item added successfully");
+                    finish();
+                } else
+                    CommonUtilities.toastLong(this, "You already have an item with the above mentioned name");
+            }
+        else
+            CommonUtilities.toastLong(this, "You cannot use this name");
     }
 
     private void getAddressForLocation(LatLng latLng) {

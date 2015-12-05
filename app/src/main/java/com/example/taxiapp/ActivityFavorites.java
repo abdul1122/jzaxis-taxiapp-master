@@ -8,10 +8,14 @@ import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ListView;
 
+import org.xmlpull.v1.XmlPullParser;
+import org.xmlpull.v1.XmlPullParserFactory;
+
 import taxiapp.adapters.FavoritesListAdapter;
 import taxiapp.constants.AppConstants;
 import taxiapp.structures.FavoriteItem;
 import taxiapp.structures.Favorites;
+import taxiapp.structures.SimpleModel;
 import taxiapp.utils.CommonUtilities;
 
 /**
@@ -61,8 +65,8 @@ public class ActivityFavorites extends Activity implements View.OnClickListener,
     }
 
     @Override
-    public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-        FavoriteItem favoriteItem = (FavoriteItem) view.getTag();
+    public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
+        FavoriteItem favoriteItem = (FavoriteItem) adapterView.getItemAtPosition(position);
         if(favoriteItem.placeIdentifier == 100) {
             Intent intent = new Intent(ActivityFavorites.this, ActivityAddFavorite.class);
             intent.putExtra("dataObj", favoriteItem);
@@ -83,31 +87,5 @@ public class ActivityFavorites extends Activity implements View.OnClickListener,
             lvFavorite.setAdapter(adapter);
             lvFavorite.setOnItemClickListener(this);
         }
-    }
-
-    private Favorites setDummyList() {
-        Favorites favorites = new Favorites();
-
-        FavoriteItem obj1 = new FavoriteItem();
-        obj1.placeIdentifier = 100;
-        obj1.placeName = "Home";
-        obj1.placeAddress = "";
-        favorites.listFavItems.add(obj1);
-        FavoriteItem obj2 = new FavoriteItem();
-        obj2.placeIdentifier = 200;
-        obj2.placeName = "Office";
-        obj2.placeAddress = "h/12 Islamabad";
-        favorites.listFavItems.add(obj2);
-        FavoriteItem obj3 = new FavoriteItem();
-        obj3.placeIdentifier = 200;
-        obj3.placeName = "School";
-        obj3.placeAddress = "Street #35 i/8 islamabad";
-        favorites.listFavItems.add(obj3);
-        FavoriteItem last = new FavoriteItem();
-        last.placeIdentifier = 100;
-        last.placeName = "Add More";
-        last.placeAddress = "";
-        favorites.listFavItems.add(last);
-        return favorites;
     }
 }

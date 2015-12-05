@@ -4,14 +4,10 @@ import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
-import android.text.Editable;
-import android.text.TextUtils;
-import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.TextView;
 
 import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.Request;
@@ -30,8 +26,8 @@ import taxiapp.utils.GenericTextWatcher;
 
 public class ActivitySignUp extends Activity implements View.OnClickListener {
 
-    String firstName, lastName, phoneNumber, email, password, city, referralCode;
-    EditText etFirstName, etLastName, etPhoneNumber, etEmail, etPassword, etCity, etReferralNo;
+    private String firstName, lastName, phoneNumber, email, password, city, referralCode;
+    private EditText etFirstName, etLastName, etPhoneNumber, etEmail, etPassword, etCity, etReferralNo;
     Button btnSignUp;
     private SignUp signUp = new SignUp();
     public static String TAG = ActivitySignUp.class.getSimpleName();
@@ -242,6 +238,10 @@ public class ActivitySignUp extends Activity implements View.OnClickListener {
         super.onBackPressed();
 
         startActivity(new Intent(ActivitySignUp.this, ActivitySplash.class));
+        finish();
+    }
+
+    public void onBackPressed(View view) {
         finish();
     }
 }

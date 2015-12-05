@@ -48,21 +48,23 @@ public class FavoritesListAdapter extends BaseAdapter{
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        View row = convertView;
+        View view = convertView;
 
-        if(row == null) {
+        if(view == null) {
             LayoutInflater inflater = (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-            row = inflater.inflate(layoutResId, parent, false);
+            view = inflater.inflate(layoutResId, parent, false);
 
             holder = new ViewHolder();
-            holder.tvFavPlaceName = (TextView) row.findViewById(R.id.tv_item_fav_place_name);
-            holder.tvFavPlaceAddress = (TextView) row.findViewById(R.id.tv_item_favorite_place_address);
-            holder.ivFavIcon=(ImageView)row.findViewById(R.id.iv_item_fav_icon);
+            holder.tvFavPlaceName = (TextView) view.findViewById(R.id.tv_item_fav_place_name);
+            holder.tvFavPlaceAddress = (TextView) view.findViewById(R.id.tv_item_favorite_place_address);
+            holder.ivFavIcon=(ImageView)view.findViewById(R.id.iv_item_fav_icon);
 
-            row.setTag(holder);
+            view.setTag(holder);
         } else {
-            holder = (ViewHolder) row.getTag();
+            view = convertView;
         }
+
+        ViewHolder holder = (ViewHolder) view.getTag();
 
         //Setting values
         FavoriteItem dataObj = getItem(position);
@@ -78,9 +80,7 @@ public class FavoritesListAdapter extends BaseAdapter{
             holder.ivFavIcon.setImageResource(android.R.drawable.star_big_off);
         }
 
-        row.setTag(dataObj);
-
-        return row;
+        return view;
     }
 
     private static class ViewHolder {

@@ -10,7 +10,7 @@
 
 
     <!-- Hassan's Laptop-->
-    <string name="google_maps_api_key">AIzaSyALRuBbbWXPrzc2GpVsjBl7eWxdiZpj70w</string>
+    <string name="GOOGLE_API_KEY">AIzaSyALRuBbbWXPrzc2GpVsjBl7eWxdiZpj70w</string>
 
     <!-- Nisar's Laptop -->
     <!--<string name="google_maps_api_key">AIzaSyCIi0U56tTRlBO1c7NPRFC9ho0lDK_CPfY</string>-->

@@ -2,23 +2,22 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/btn_background_normal">
+    android:background="@drawable/splash_btn_background_normal">
 
     <ImageView
         android:id="@+id/splash_zabihahtext"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:src="@drawable/btn_logo_normal"
+        android:src="@drawable/splash_btn_logo_normal"
         android:layout_marginTop="82dp"
-        android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true" />
 
     <ImageButton
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/btn_splash_signin"
-        android:background="@drawable/btn_button_normal"
-        android:src="@drawable/btn_signin_normal"
+        android:background="@drawable/splash_bg_signin"
+        android:src="@drawable/splash_btn_signin"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
         android:layout_marginBottom="100dp" />
@@ -27,8 +26,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/btn_splash_signup"
-        android:src="@drawable/btn_signup_normal"
-        android:background="@drawable/btn_button_normal"
+        android:src="@drawable/splash_btn_signup"
+        android:background="@drawable/splash_bg_signup"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
         android:layout_marginBottom="53dp" />

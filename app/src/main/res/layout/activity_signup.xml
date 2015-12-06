@@ -1,20 +1,66 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
-    android:layout_height="match_parent" android:paddingLeft="@dimen/activity_horizontal_margin"
-    android:paddingRight="@dimen/activity_horizontal_margin"
-    android:paddingTop="@dimen/activity_vertical_margin"
-    android:paddingBottom="@dimen/activity_vertical_margin"
-    android:background="@drawable/bg"
+    android:layout_height="match_parent"
+    android:background="@drawable/bg_signup"
     tools:context="com.example.asad.venderapp.Login"
     android:orientation="vertical"
     android:weightSum="100">
 
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/header_signin"
+        android:gravity="center"
+        android:orientation="horizontal"
+        android:weightSum="100">
 
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_weight="20"
+            android:onClick="onBackPressed">
+
+            <ImageView
+                android:id="@+id/iv_header"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="5dp"
+                android:src="@drawable/bk_signin" />
+
+            <ImageView
+                android:id="@+id/iv_header_logo"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="5dp"
+                android:layout_toRightOf="@+id/iv_header"
+                android:src="@drawable/btn_logo_normal" />
+        </LinearLayout>
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true"
+            android:layout_weight="60"
+            android:gravity="center"
+
+            android:text="SignUp"
+            android:textColor="@android:color/white" />
+
+        <Button
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="20"
+            android:background="@android:color/transparent" />
+    </LinearLayout>
     <LinearLayout
         android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:gravity="center"
+        android:padding="10dp"
         android:layout_centerHorizontal="true"
         android:layout_weight="80">
         <EditText
@@ -69,7 +115,7 @@
             android:layout_height="wrap_content"
             android:singleLine="true"
             android:maxLength="20"/>
-        <EditText
+        <AutoCompleteTextView
             android:id="@+id/et_signup_city"
             android:hint="City"
             android:gravity="center"
@@ -97,6 +143,7 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:gravity="center"
+        android:padding="10dp"
         android:layout_centerHorizontal="true"
         android:layout_weight="20">
         <Button

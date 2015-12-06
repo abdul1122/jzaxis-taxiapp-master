@@ -40,6 +40,10 @@ public class ActivityLogin extends Activity implements View.OnClickListener {
         initListeners();
     }
 
+    public void onBackPressed(View view) {
+        finish();
+    }
+
     private void init() {
         etEmail = (EditText) findViewById(R.id.et_login_email);
         etPassword = (EditText) findViewById(R.id.et_login_password);
@@ -54,8 +58,8 @@ public class ActivityLogin extends Activity implements View.OnClickListener {
 
     @Override
     public void onClick(View view) {
-        int id  = view.getId();
-        switch(id) {
+        int id = view.getId();
+        switch (id) {
             case R.id.btn_login_login:
                 loginButtonTasks();
                 break;
@@ -65,21 +69,24 @@ public class ActivityLogin extends Activity implements View.OnClickListener {
     private void loginButtonTasks() {
         Login login = new Login();
 
-        if(!EditTextUtils.isFieldEmpty(etEmail))
+        if (!EditTextUtils.isFieldEmpty(etEmail))
             login.email = etEmail.getText().toString();
 
-        if(!EditTextUtils.isFieldEmpty(etPassword))
+        if (!EditTextUtils.isFieldEmpty(etPassword))
             login.password = etPassword.getText().toString();
 
         performLoginTask(login);
     }
 
-    /** Tag used to associate with the request to server,
-     * also we can cancel the request associated with this tag. */
+    /**
+     * Tag used to associate with the request to server,
+     * also we can cancel the request associated with this tag.
+     */
     public static final String SERVICE_REQ_TAG_LOGIN = "request_server_for_login";
     public static String SERVICE_URL_LOGIN = null;
+
     private void performLoginTask(Login login) {
-        SERVICE_URL_LOGIN = URLConstants.SERVICE_URL_LOGIN + "?txt_email="+login.email+"&txt_password="
+        SERVICE_URL_LOGIN = URLConstants.SERVICE_URL_LOGIN + "?txt_email=" + login.email + "&txt_password="
                 + login.password;
         Log.i(TAG, "performLoginTask() URL: " + SERVICE_URL_LOGIN);
 
@@ -106,7 +113,7 @@ public class ActivityLogin extends Activity implements View.OnClickListener {
                             if (response.startsWith("{") && response.endsWith("}")) {
                                 JSONObject jsonObject = new JSONObject(response);
                                 success = jsonObject.getInt("success");
-                                if(success == 0) {
+                                if (success == 0) {
                                     CommonUtilities.toastShort(ActivityLogin.this, "Login failed");
                                 } else {
                                     JSONObject userObj = (JSONObject) jsonObject.getJSONArray("apps").get(0);
@@ -123,8 +130,7 @@ public class ActivityLogin extends Activity implements View.OnClickListener {
                                 }
                             }
                             Log.i(TAG, "performLoginTask() - Response: " + response);
-                        }
-                        catch (Exception e) {
+                        } catch (Exception e) {
                             e.printStackTrace();
                         }
                         pDialog.hide();

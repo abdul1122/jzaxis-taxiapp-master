@@ -38,11 +38,9 @@ public class ActivitySplash extends Activity implements View.OnClickListener
 		switch(id) {
 			case R.id.btn_splash_signin:
 				startActivity(new Intent(ActivitySplash.this, ActivityLogin.class));
-				finish();
 				break;
 			case R.id.btn_splash_signup:
 				startActivity(new Intent(ActivitySplash.this, ActivitySignUp.class));
-				finish();
 				break;
 		}
 	}

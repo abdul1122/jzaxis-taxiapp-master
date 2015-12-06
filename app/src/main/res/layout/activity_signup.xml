@@ -17,10 +17,11 @@
 
         <LinearLayout
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:layout_centerVertical="true"
             android:layout_weight="20"
-            android:onClick="onBackPressed">
+            android:onClick="onBackPressed"
+            android:gravity="center_vertical">
 
             <ImageView
                 android:id="@+id/iv_header"
@@ -40,12 +41,11 @@
 
         <TextView
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:layout_centerHorizontal="true"
             android:layout_centerVertical="true"
             android:layout_weight="60"
             android:gravity="center"
-
             android:text="SignUp"
             android:textColor="@android:color/white" />
 
@@ -64,77 +64,79 @@
         android:layout_centerHorizontal="true"
         android:layout_weight="80">
         <EditText
-            android:id="@+id/et_signup_firstName"
-            android:hint="First Name"
-            android:gravity="center"
-            android:layout_marginTop="5dp"
+            android:id="@+id/et_signup_fullName"
+            android:hint="Full Name"
+            android:gravity="left"
+            android:padding="5dp"
             android:textSize="16sp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:singleLine="true"
-            android:maxLength="50"/>
-
-        <EditText
-            android:id="@+id/et_signup_lastName"
-            android:hint="Last Name"
-            android:gravity="center"
-            android:layout_marginTop="5dp"
-            android:textSize="16sp"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:singleLine="true"
-            android:maxLength="50"/>
+            android:maxLength="50"
+            android:background="@drawable/btn_rectangle_normal"/>
         <EditText
             android:id="@+id/et_signup_phoneNumber"
             android:hint="Phone"
-            android:gravity="center"
+            android:gravity="left"
+            android:padding="5dp"
+            android:layout_marginTop="10dp"
             android:textSize="16sp"
             android:inputType="number"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:singleLine="true"
-            android:maxLength="25"/>
+            android:maxLength="25"
+            android:background="@drawable/btn_rectangle_normal"/>
         <EditText
             android:id="@+id/et_signup_email"
             android:hint="Email"
-            android:gravity="center"
-            android:layout_marginTop="5dp"
+            android:gravity="left"
+            android:padding="5dp"
+            android:layout_marginTop="10dp"
             android:textSize="16sp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:singleLine="true"
             android:maxLength="30"
-            android:inputType="textEmailAddress"/>
+            android:inputType="textEmailAddress"
+            android:background="@drawable/btn_rectangle_normal"/>
         <EditText
             android:id="@+id/et_signup_password"
             android:hint="Password"
-            android:gravity="center"
+            android:gravity="left"
+            android:padding="5dp"
+            android:layout_marginTop="10dp"
             android:textSize="16sp"
             android:inputType="textPassword"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:singleLine="true"
-            android:maxLength="20"/>
+            android:maxLength="20"
+            android:background="@drawable/btn_rectangle_normal"/>
         <AutoCompleteTextView
-            android:id="@+id/et_signup_city"
+            android:id="@+id/actv_signup_city"
             android:hint="City"
-            android:gravity="center"
-            android:layout_marginTop="5dp"
+            android:gravity="left"
+            android:padding="5dp"
+            android:layout_marginTop="10dp"
             android:textSize="16sp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:singleLine="true"
-            android:maxLength="100"/>
+            android:maxLength="100"
+            android:background="@drawable/btn_rectangle_normal"/>
         <EditText
             android:id="@+id/et_signup_referralCode"
             android:hint="Referral Code"
-            android:gravity="center"
-            android:layout_marginTop="5dp"
+            android:gravity="left"
+            android:padding="5dp"
+            android:layout_marginTop="10dp"
             android:textSize="16sp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:singleLine="true"
-            android:maxLength="20"/>
+            android:maxLength="20"
+            android:background="@drawable/btn_rectangle_normal"/>
     </LinearLayout>
 
 

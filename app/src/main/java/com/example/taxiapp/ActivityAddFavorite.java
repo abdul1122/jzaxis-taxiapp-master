@@ -29,11 +29,12 @@ import taxiapp.utils.GeocoderUtils;
  */
 public class ActivityAddFavorite extends Activity implements View.OnClickListener{
 
-    EditText etPlaceName, etLat, etLon;
-    Button btnSave, btnShowOnMap;
-    TextView tvAddress;
+    private EditText etPlaceName, etLat, etLon;
+    private Button btnSave, btnShowOnMap;
+    private TextView tvAddress;
+
     private FavoriteItem mFavoriteItem;
-    GoogleMap map;
+    private GoogleMap map;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

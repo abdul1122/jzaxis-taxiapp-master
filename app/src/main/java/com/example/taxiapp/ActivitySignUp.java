@@ -6,6 +6,8 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
 
@@ -17,19 +19,21 @@ import com.android.volley.toolbox.StringRequest;
 
 import org.json.JSONObject;
 
+import taxiapp.adapters.AdapterAutoCompleteGeoNamePlaces;
 import taxiapp.constants.URLConstants;
-import taxiapp.structures.SignUp;
+import taxiapp.structures.GeoNameCity;
 import taxiapp.structures.UserDetails;
 import taxiapp.utils.CommonUtilities;
 import taxiapp.utils.EditTextUtils;
 import taxiapp.utils.GenericTextWatcher;
 
-public class ActivitySignUp extends Activity implements View.OnClickListener {
+public class ActivitySignUp extends Activity implements View.OnClickListener, AdapterView.OnItemClickListener {
 
-    private String firstName, lastName, phoneNumber, email, password, city, referralCode;
-    private EditText etFirstName, etLastName, etPhoneNumber, etEmail, etPassword, etCity, etReferralNo;
-    Button btnSignUp;
-    private SignUp signUp = new SignUp();
+    private EditText etFullName, etPhoneNumber, etEmail, etPassword, etReferralNo;
+    private AutoCompleteTextView actvCity;
+    private Button btnSignUp;
+
+    private UserDetails userDetails = new UserDetails();
     public static String TAG = ActivitySignUp.class.getSimpleName();
 
     @Override
@@ -42,24 +46,25 @@ public class ActivitySignUp extends Activity implements View.OnClickListener {
     }
 
     private void init() {
-        etFirstName = (EditText) findViewById(R.id.et_signup_firstName);
-        etLastName = (EditText) findViewById(R.id.et_signup_lastName);
+        etFullName = (EditText) findViewById(R.id.et_signup_fullName);
         etPhoneNumber = (EditText) findViewById(R.id.et_signup_phoneNumber);
         etEmail = (EditText) findViewById(R.id.et_signup_email);
         etPassword = (EditText) findViewById(R.id.et_signup_password);
-        etCity = (EditText) findViewById(R.id.et_signup_city);
         etReferralNo = (EditText) findViewById(R.id.et_signup_referralCode);
         btnSignUp = (Button) findViewById(R.id.btn_signup_signUp);
+
+        actvCity = (AutoCompleteTextView) findViewById(R.id.actv_signup_city);
+        actvCity.setAdapter(new AdapterAutoCompleteGeoNamePlaces(this, R.layout.layout_item_dropdown_list));
+        actvCity.setOnItemClickListener(this);
     }
 
     private void initListeners() {
         btnSignUp.setOnClickListener(this);
-        etFirstName.addTextChangedListener(new GenericTextWatcher(etFirstName));
-        etLastName.addTextChangedListener(new GenericTextWatcher(etLastName));
+        etFullName.addTextChangedListener(new GenericTextWatcher(etFullName));
         etPhoneNumber.addTextChangedListener(new GenericTextWatcher(etPhoneNumber));
         etEmail.addTextChangedListener(new GenericTextWatcher(etEmail));
         etPassword.addTextChangedListener(new GenericTextWatcher(etPassword));
-        etCity.addTextChangedListener(new GenericTextWatcher(etCity));
+        actvCity.addTextChangedListener(new GenericTextWatcher(actvCity));
         etReferralNo.addTextChangedListener(new GenericTextWatcher(etReferralNo));
     }
 
@@ -68,59 +73,56 @@ public class ActivitySignUp extends Activity implements View.OnClickListener {
         int id = view.getId();
         switch (id) {
             case R.id.btn_signup_signUp:
-                Boolean isValid = createSignUpModel();
+                Boolean isValid = getSignUpInputModel();
                 if (isValid) {
-                    performSignUpTask(signUp);
+                    performSignUpTask(userDetails);
                 }
                 break;
         }
     }
 
-    private Boolean createSignUpModel() {
-        signUp = new SignUp();
+    private Boolean getSignUpInputModel() {
+        userDetails = new UserDetails();
 
         Boolean isValid = false;
 
-        if (EditTextUtils.isFieldEmpty(etFirstName)) {
+        if (EditTextUtils.isFieldEmpty(etFullName)) {
             return isValid;
         } else {
-            etFirstName.setError(null);
-            signUp.firstName = etFirstName.getText().toString();
-        }
-
-        if (EditTextUtils.isFieldEmpty(etLastName)) {
-            return isValid;
-        } else {
-            etLastName.setError(null);
-            signUp.lastName = etLastName.getText().toString();
+            etFullName.setError(null);
+            userDetails.full_name = etFullName.getText().toString();
         }
 
         if (EditTextUtils.isFieldEmpty(etPhoneNumber)) {
             return isValid;
         } else {
             etPhoneNumber.setError(null);
-            signUp.phoneNumber = etPhoneNumber.getText().toString();
+            userDetails.mobile = etPhoneNumber.getText().toString();
         }
 
         if (EditTextUtils.isFieldEmpty(etEmail)) {
             return isValid;
         } else {
             etEmail.setError(null);
-            signUp.email = etEmail.getText().toString();
+            userDetails.email = etEmail.getText().toString();
         }
 
         if (EditTextUtils.isFieldEmpty(etPassword)) {
             return isValid;
         } else {
             etPassword.setError(null);
-            signUp.password = etPassword.getText().toString();
+            userDetails.password = etPassword.getText().toString();
         }
 
-        if (EditTextUtils.isFieldEmpty(etCity)) {
+        if (geoNameCity == null) {
+            actvCity.requestFocus();
+            actvCity.setError(actvCity.getHint().toString() + " is not selected");
             return isValid;
         } else {
-            etCity.setError(null);
-            signUp.city = etCity.getText().toString();
+            actvCity.setError(null);
+            userDetails.city = actvCity.getText().toString();
+            userDetails.cityLat = geoNameCity.getLat();
+            userDetails.cityLon = geoNameCity.getLng();
         }
 
         if (EditTextUtils.isFieldEmpty(etReferralNo)) {
@@ -130,11 +132,53 @@ public class ActivitySignUp extends Activity implements View.OnClickListener {
         } else {
             etReferralNo.setError(null);
             isValid = true;
-            signUp.referralCode = etReferralNo.getText().toString();
+            userDetails.referal_code = etReferralNo.getText().toString();
         }
 
         return isValid;
+    }
 
+
+    private UserDetails getUserDetailsObject(JSONObject jsonObject) {
+        try {
+            UserDetails userDetails = new UserDetails();
+            userDetails.user_id = jsonObject.getString("user_id");
+            userDetails.full_name = jsonObject.getString("full_name");
+            userDetails.email = jsonObject.getString("email");
+            userDetails.mobile = jsonObject.getString("mobile");
+            userDetails.city = jsonObject.getString("city");
+            userDetails.referal_code = jsonObject.getString("referal_code");
+            return userDetails;
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+
+        startActivity(new Intent(ActivitySignUp.this, ActivitySplash.class));
+        finish();
+    }
+
+    /**
+     * Function is used to call by a UI component
+     * @param view
+     */
+    public void onBackPressed(View view) {
+        finish();
+        startActivity(new Intent(ActivitySignUp.this, ActivitySplash.class));
+    }
+
+    private GeoNameCity geoNameCity = null;
+    @Override
+    public void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {
+        geoNameCity = (GeoNameCity) adapterView.getItemAtPosition(position);
+        actvCity.setText(geoNameCity.getToponymName() +", "+geoNameCity.getCountryCode() +
+                ", " + geoNameCity.getCountryName());
     }
 
     /**
@@ -142,12 +186,12 @@ public class ActivitySignUp extends Activity implements View.OnClickListener {
      * also we can cancel the request associated with this tag.
      */
     public static final String SERVICE_REQ_TAG_SIGN_UP = "request_server_for_sign_up";
-    public static String SERVICE_URL_SIGNUP = null;
 
-    private void performSignUpTask(SignUp signUp) {
-        SERVICE_URL_SIGNUP = URLConstants.SERVICE_URL_SIGNUP + "?txt_first_name=" + signUp.firstName +
-                "&txt_last_name=" + signUp.lastName + "&txt_email=" + signUp.email + "&txt_mobile=" + signUp.phoneNumber +
-                "&txt_city=" + signUp.city + "&txt_password=" + signUp.password + "&txt_referal_code=" + signUp.referralCode;
+    private void performSignUpTask(UserDetails userDetails) {
+        String SERVICE_URL_SIGNUP = URLConstants.SERVICE_URL_SIGNUP + "?txt_full_name=" + userDetails.full_name +
+                "&txt_email=" + userDetails.email + "&txt_mobile=" + userDetails.mobile +
+                "&txt_city=" + userDetails.city + "&txt_password=" + userDetails.password +
+                "&txt_referal_code=" + userDetails.referal_code;
         Log.i(TAG, "performSignUpTask() URL: " + SERVICE_URL_SIGNUP);
 
         final ProgressDialog pDialog = new ProgressDialog(this);
@@ -180,7 +224,7 @@ public class ActivitySignUp extends Activity implements View.OnClickListener {
                                                     .get(0).toString(), UserDetails.class);*/
                                     JSONObject userObj = (JSONObject) jsonObject.getJSONArray("apps").get(0);
                                     UserDetails userDetails = getUserDetailsObject(userObj);
-                                    CommonUtilities.toastShort(ActivitySignUp.this, userDetails.last_name
+                                    CommonUtilities.toastShort(ActivitySignUp.this, userDetails.full_name
                                             + " registered successfully");
 
                                     // Saving preferences for login session
@@ -213,35 +257,5 @@ public class ActivitySignUp extends Activity implements View.OnClickListener {
         request.setShouldCache(false);
         // Adding the request to request queue associated with a tag
         MyApplication.getInstance().addToRequestQueue(request, SERVICE_REQ_TAG_SIGN_UP);
-    }
-
-    private UserDetails getUserDetailsObject(JSONObject jsonObject) {
-        try {
-            UserDetails userDetails = new UserDetails();
-            userDetails.user_id = jsonObject.getString("user_id");
-            userDetails.first_name = jsonObject.getString("first_name");
-            userDetails.last_name = jsonObject.getString("last_name");
-            userDetails.email = jsonObject.getString("email");
-            userDetails.mobile = jsonObject.getString("mobile");
-            userDetails.city = jsonObject.getString("city");
-            userDetails.referal_code = jsonObject.getString("referal_code");
-            return userDetails;
-
-        } catch (Exception e) {
-            e.printStackTrace();
-            return null;
-        }
-    }
-
-    @Override
-    public void onBackPressed() {
-        super.onBackPressed();
-
-        startActivity(new Intent(ActivitySignUp.this, ActivitySplash.class));
-        finish();
-    }
-
-    public void onBackPressed(View view) {
-        finish();
     }
 }

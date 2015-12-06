@@ -4,11 +4,13 @@ package taxiapp.structures;
  * Created by hassanjamil on 2015-11-29.
  */
 public class UserDetails {
-    public static String user_id;
-    public static String first_name;
-    public static String last_name;
-    public static String email;
-    public static String mobile;
-    public static String city;
-    public static String referal_code;
+    public String user_id;
+    public String full_name;
+    public String email;
+    public String password;
+    public String mobile;
+    public String city;
+    public double cityLat;
+    public double cityLon;
+    public String referal_code;
 }

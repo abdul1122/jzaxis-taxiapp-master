@@ -4,7 +4,6 @@ import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
-import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -118,7 +117,7 @@ public class ActivityLogin extends Activity implements View.OnClickListener {
                                 } else {
                                     JSONObject userObj = (JSONObject) jsonObject.getJSONArray("apps").get(0);
                                     UserDetails userDetails = getUserDetailsObject(userObj);
-                                    CommonUtilities.toastShort(ActivityLogin.this, userDetails.last_name
+                                    CommonUtilities.toastShort(ActivityLogin.this, userDetails.full_name
                                             + " logged in successfully");
 
                                     // Saving preferences for login session
@@ -157,8 +156,7 @@ public class ActivityLogin extends Activity implements View.OnClickListener {
         try {
             UserDetails userDetails = new UserDetails();
             userDetails.user_id = jsonObject.getString("user_id");
-            userDetails.first_name = jsonObject.getString("first_name");
-            userDetails.last_name = jsonObject.getString("last_name");
+            userDetails.full_name = jsonObject.getString("full_name");
             userDetails.email = jsonObject.getString("email");
             userDetails.mobile = jsonObject.getString("mobile");
             userDetails.city = jsonObject.getString("city");
@@ -175,7 +173,7 @@ public class ActivityLogin extends Activity implements View.OnClickListener {
     public void onBackPressed() {
         super.onBackPressed();
 
-        startActivity(new Intent(ActivityLogin.this, ActivitySplash.class));
         finish();
+        startActivity(new Intent(ActivityLogin.this, ActivitySplash.class));
     }
 }

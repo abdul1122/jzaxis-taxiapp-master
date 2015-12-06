@@ -160,6 +160,8 @@ public class ActivityLogin extends Activity implements View.OnClickListener {
             userDetails.email = jsonObject.getString("email");
             userDetails.mobile = jsonObject.getString("mobile");
             userDetails.city = jsonObject.getString("city");
+            userDetails.city_lat = Double.valueOf(jsonObject.getString("city_lat"));
+            userDetails.city_lon = Double.valueOf(jsonObject.getString("city_lon"));
             userDetails.referal_code = jsonObject.getString("referal_code");
             return userDetails;
 

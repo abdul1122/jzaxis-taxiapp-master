@@ -47,8 +47,8 @@ public class AppPreferences {
 		mEditor.putString(KEY_USER_EMAIL, userDetails.email);
 		mEditor.putString(KEY_USER_PHONE, userDetails.mobile);
 		mEditor.putString(KEY_USER_CITY, userDetails.city);
-		mEditor.putFloat(KEY_USER_CITY_LAT, (float) userDetails.cityLat);
-		mEditor.putFloat(KEY_USER_CITY_LON, (float) userDetails.cityLon);
+		mEditor.putFloat(KEY_USER_CITY_LAT, (float) userDetails.city_lat);
+		mEditor.putFloat(KEY_USER_CITY_LON, (float) userDetails.city_lon);
 		mEditor.putString(KEY_USER_REFERRAL_CODE, userDetails.referal_code);
 		mEditor.putBoolean(KEY_USER_LOGGED_IN, true);
 		mEditor.commit();
@@ -65,8 +65,8 @@ public class AppPreferences {
 		userDetails.email = mPreferences.getString(KEY_USER_EMAIL, null);
 		userDetails.mobile = mPreferences.getString(KEY_USER_PHONE, null);
 		userDetails.city = mPreferences.getString(KEY_USER_CITY, null);
-		userDetails.cityLat = mPreferences.getFloat(KEY_USER_CITY_LAT, -1);
-		userDetails.cityLon = mPreferences.getFloat(KEY_USER_CITY_LON, -1);
+		userDetails.city_lat = mPreferences.getFloat(KEY_USER_CITY_LAT, -1);
+		userDetails.city_lon = mPreferences.getFloat(KEY_USER_CITY_LON, -1);
 		userDetails.referal_code = mPreferences.getString(KEY_USER_REFERRAL_CODE, null);
 		return userDetails;
 	}

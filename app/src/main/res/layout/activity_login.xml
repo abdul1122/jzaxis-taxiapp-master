@@ -46,8 +46,8 @@
             android:layout_centerVertical="true"
             android:layout_weight="60"
             android:gravity="center"
-
-            android:text="Signin"
+            android:text="SIGN IN"
+            android:textSize="18sp"
             android:textColor="@android:color/white" />
 
         <Button
@@ -84,24 +84,26 @@
                 android:hint="Email"
                 android:inputType="textEmailAddress"
                 android:maxLength="50"
-                android:padding="5dp"
+                android:padding="10dp"
                 android:singleLine="true"
                 android:textColor="@android:color/black"
-                android:textSize="14sp" />
+                android:textSize="14sp"
+                android:background="@drawable/btn_rectangle_normal"/>
 
             <EditText
                 android:id="@+id/et_login_password"
                 android:layout_width="match_parent"
                 android:layout_height="40dp"
                 android:layout_below="@+id/divider2"
-                android:layout_marginTop="5dp"
+                android:layout_marginTop="15dp"
                 android:hint="Password"
                 android:inputType="textPassword"
                 android:maxLength="20"
-                android:padding="5dp"
+                android:padding="10dp"
                 android:singleLine="true"
                 android:textColor="@android:color/black"
-                android:textSize="14sp" />
+                android:textSize="14sp"
+                android:background="@drawable/btn_rectangle_normal"/>
 
             <Button
                 android:id="@+id/btn_login_login"
@@ -109,21 +111,22 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/tableLayout_login"
                 android:layout_centerHorizontal="true"
-                android:layout_marginBottom="20dp"
                 android:layout_marginTop="40dp"
                 android:background="@drawable/bg_send_signin"
                 android:padding="5dp"
-                android:text="Login"
+                android:text="SIGN IN"
                 android:textColor="@android:color/white"
-                android:textSize="16sp"
-                android:textStyle="bold" />
+                android:textSize="18sp"
+                android:textStyle="normal" />
 
-            <ImageView
+            <TextView
                 android:id="@+id/textView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="15dp"
                 android:layout_gravity="center_horizontal"
-                android:src="@drawable/forgot_signin" />
+                android:text="Forget Password?"
+                android:textSize="16sp"/>
         </LinearLayout>
 
 

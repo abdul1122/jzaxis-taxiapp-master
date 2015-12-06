@@ -5,6 +5,7 @@ import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.util.Xml;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.AutoCompleteTextView;
@@ -18,6 +19,8 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 
 import org.json.JSONObject;
+
+import java.net.URLEncoder;
 
 import taxiapp.adapters.AdapterAutoCompleteGeoNamePlaces;
 import taxiapp.constants.URLConstants;
@@ -121,8 +124,8 @@ public class ActivitySignUp extends Activity implements View.OnClickListener, Ad
         } else {
             actvCity.setError(null);
             userDetails.city = actvCity.getText().toString();
-            userDetails.cityLat = geoNameCity.getLat();
-            userDetails.cityLon = geoNameCity.getLng();
+            userDetails.city_lat = geoNameCity.getLat();
+            userDetails.city_lon = geoNameCity.getLng();
         }
 
         if (EditTextUtils.isFieldEmpty(etReferralNo)) {
@@ -147,6 +150,8 @@ public class ActivitySignUp extends Activity implements View.OnClickListener, Ad
             userDetails.email = jsonObject.getString("email");
             userDetails.mobile = jsonObject.getString("mobile");
             userDetails.city = jsonObject.getString("city");
+            userDetails.city_lat = Double.valueOf(jsonObject.getString("city_lat"));
+            userDetails.city_lon = Double.valueOf(jsonObject.getString("city_lon"));
             userDetails.referal_code = jsonObject.getString("referal_code");
             return userDetails;
 
@@ -188,11 +193,17 @@ public class ActivitySignUp extends Activity implements View.OnClickListener, Ad
     public static final String SERVICE_REQ_TAG_SIGN_UP = "request_server_for_sign_up";
 
     private void performSignUpTask(UserDetails userDetails) {
-        String SERVICE_URL_SIGNUP = URLConstants.SERVICE_URL_SIGNUP + "?txt_full_name=" + userDetails.full_name +
-                "&txt_email=" + userDetails.email + "&txt_mobile=" + userDetails.mobile +
-                "&txt_city=" + userDetails.city + "&txt_password=" + userDetails.password +
-                "&txt_referal_code=" + userDetails.referal_code;
-        Log.i(TAG, "performSignUpTask() URL: " + SERVICE_URL_SIGNUP);
+        String SERVICE_URL_SIGNUP = null;
+        try {
+            SERVICE_URL_SIGNUP = URLConstants.SERVICE_URL_SIGNUP + "?txt_full_name=" + URLEncoder.encode(userDetails.full_name, "utf8") +
+                    "&txt_email=" + URLEncoder.encode(userDetails.email, "utf8") + "&txt_mobile=" + URLEncoder.encode(userDetails.mobile, "utf8") +
+                    "&txt_city=" + URLEncoder.encode(userDetails.city, "utf8") + "&txt_city_lat=" + userDetails.city_lat +
+                    "&txt_city_lon=" + userDetails.city_lon + "&txt_password=" + URLEncoder.encode(userDetails.password, "utf8") +
+                    "&txt_referal_code=" + URLEncoder.encode(userDetails.referal_code, "utf8");
+            Log.i(TAG, "performSignUpTask() URL: " + SERVICE_URL_SIGNUP);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 
         final ProgressDialog pDialog = new ProgressDialog(this);
         pDialog.setMessage("Please wait...");

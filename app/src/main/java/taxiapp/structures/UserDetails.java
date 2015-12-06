@@ -10,7 +10,7 @@ public class UserDetails {
     public String password;
     public String mobile;
     public String city;
-    public double cityLat;
-    public double cityLon;
+    public double city_lat;
+    public double city_lon;
     public String referal_code;
 }

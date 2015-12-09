@@ -21,6 +21,7 @@ import java.net.URL;
 import java.net.URLEncoder;
 import java.util.ArrayList;
 
+import taxiapp.constants.URLConstants;
 import taxiapp.parsers.XMLPullParserForCities;
 import taxiapp.structures.GeoNameCity;
 
@@ -119,7 +120,7 @@ public class AdapterAutoCompleteGeoNamePlaces extends ArrayAdapter<GeoNameCity> 
         HttpURLConnection conn = null;
         StringBuilder result = new StringBuilder();
         try {
-            StringBuilder sb = new StringBuilder("http://api.geonames.org/search");
+            StringBuilder sb = new StringBuilder(URLConstants.SERVICE_URL_GET_CITIES);
             sb.append("?name_startsWith="+ URLEncoder.encode(text, "utf8"));
             sb.append("&maxRows="+numOfResults);
             sb.append("&username="+username);

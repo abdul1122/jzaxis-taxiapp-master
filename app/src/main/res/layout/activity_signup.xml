@@ -128,7 +128,7 @@
             android:background="@drawable/btn_rectangle_normal"/>
         <EditText
             android:id="@+id/et_signup_referralCode"
-            android:hint="Referral Code"
+            android:hint="Referral Code (Optional)"
             android:gravity="left"
             android:padding="10dp"
             android:layout_marginTop="15dp"

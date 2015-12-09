@@ -123,18 +123,13 @@ public class ActivitySignUp extends Activity implements View.OnClickListener, Ad
             return isValid;
         } else {
             actvCity.setError(null);
+            isValid = true;
             userDetails.city = actvCity.getText().toString();
             userDetails.city_lat = geoNameCity.getLat();
             userDetails.city_lon = geoNameCity.getLng();
         }
 
-        if (EditTextUtils.isFieldEmpty(etReferralNo)) {
-            etReferralNo.requestFocus();
-            etReferralNo.setError(etReferralNo.getHint().toString() + " is missing");
-            return isValid;
-        } else {
-            etReferralNo.setError(null);
-            isValid = true;
+        if (!EditTextUtils.isFieldEmpty(etReferralNo)) {
             userDetails.referal_code = etReferralNo.getText().toString();
         }
 
@@ -198,8 +193,10 @@ public class ActivitySignUp extends Activity implements View.OnClickListener, Ad
             SERVICE_URL_SIGNUP = URLConstants.SERVICE_URL_SIGNUP + "?txt_full_name=" + URLEncoder.encode(userDetails.full_name, "utf8") +
                     "&txt_email=" + URLEncoder.encode(userDetails.email, "utf8") + "&txt_mobile=" + URLEncoder.encode(userDetails.mobile, "utf8") +
                     "&txt_city=" + URLEncoder.encode(userDetails.city, "utf8") + "&txt_city_lat=" + userDetails.city_lat +
-                    "&txt_city_lon=" + userDetails.city_lon + "&txt_password=" + URLEncoder.encode(userDetails.password, "utf8") +
-                    "&txt_referal_code=" + URLEncoder.encode(userDetails.referal_code, "utf8");
+                    "&txt_city_lon=" + userDetails.city_lon + "&txt_password=" + URLEncoder.encode(userDetails.password, "utf8");
+            if(userDetails.referal_code != null) {
+                SERVICE_URL_SIGNUP += "&txt_referal_code=" + URLEncoder.encode(userDetails.referal_code, "utf8");
+            }
             Log.i(TAG, "performSignUpTask() URL: " + SERVICE_URL_SIGNUP);
         } catch (Exception e) {
             e.printStackTrace();

@@ -8,6 +8,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 
 import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.Request;
@@ -16,6 +17,9 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 
 import org.json.JSONObject;
+import org.w3c.dom.Text;
+
+import java.net.URLEncoder;
 
 import taxiapp.constants.URLConstants;
 import taxiapp.structures.Login;
@@ -28,6 +32,7 @@ public class ActivityLogin extends Activity implements View.OnClickListener {
 
     EditText etEmail, etPassword;
     Button btnLogin;
+    TextView tvForgetPassword;
     public static String TAG = ActivityLogin.class.getSimpleName();
 
     @Override
@@ -39,18 +44,16 @@ public class ActivityLogin extends Activity implements View.OnClickListener {
         initListeners();
     }
 
-    public void onBackPressed(View view) {
-        finish();
-    }
-
     private void init() {
         etEmail = (EditText) findViewById(R.id.et_login_email);
         etPassword = (EditText) findViewById(R.id.et_login_password);
         btnLogin = (Button) findViewById(R.id.btn_login_login);
+        tvForgetPassword = (TextView) findViewById(R.id.tv_login_forget_password);
     }
 
     private void initListeners() {
         btnLogin.setOnClickListener(this);
+        tvForgetPassword.setOnClickListener(this);
         etEmail.addTextChangedListener(new GenericTextWatcher(etEmail));
         etPassword.addTextChangedListener(new GenericTextWatcher(etPassword));
     }
@@ -62,7 +65,19 @@ public class ActivityLogin extends Activity implements View.OnClickListener {
             case R.id.btn_login_login:
                 loginButtonTasks();
                 break;
+            case R.id.tv_login_forget_password:
+                startActivity(new Intent(ActivityLogin.this, ActivityForgetPassword.class));
+                break;
         }
+    }
+
+    /**
+     * Function is used to call by a UI component
+     * @param view
+     */
+    public void onBackPressed(View view) {
+        finish();
+        startActivity(new Intent(ActivityLogin.this, ActivitySplash.class));
     }
 
     private void loginButtonTasks() {
@@ -85,9 +100,13 @@ public class ActivityLogin extends Activity implements View.OnClickListener {
     public static String SERVICE_URL_LOGIN = null;
 
     private void performLoginTask(Login login) {
-        SERVICE_URL_LOGIN = URLConstants.SERVICE_URL_LOGIN + "?txt_email=" + login.email + "&txt_password="
-                + login.password;
-        Log.i(TAG, "performLoginTask() URL: " + SERVICE_URL_LOGIN);
+        try {
+            SERVICE_URL_LOGIN = URLConstants.SERVICE_URL_LOGIN + "?txt_email=" + URLEncoder.encode(login.email, "utf8") +
+                    "&txt_password=" + URLEncoder.encode(login.password, "utf8");
+            Log.i(TAG, "performLoginTask() URL: " + SERVICE_URL_LOGIN);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 
         final ProgressDialog pDialog = new ProgressDialog(this);
         pDialog.setMessage("Please wait...");

@@ -57,6 +57,11 @@
             android:screenOrientation="portrait"
             android:alwaysRetainTaskState="true"/>
 
+        <activity android:name=".ActivityForgetPassword" android:label="@string/activity_forget_password"
+            android:windowSoftInputMode="adjustPan"
+            android:screenOrientation="portrait"
+            android:alwaysRetainTaskState="true"/>
+
     </application>
 
 </manifest>

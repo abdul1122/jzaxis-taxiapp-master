@@ -13,14 +13,15 @@ public class ActivitySplash extends Activity implements View.OnClickListener
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_splash);
-
-		init();
-		initListeners();
 
 		if(MyApplication.getInstance().getAppPreferences().isUserLoggedIn()) {
-			startActivity(new Intent(ActivitySplash.this, ActivityFavorites.class));
+			startActivity(new Intent(ActivitySplash.this, MainActivity.class));
 			finish();
+		} else {
+			setContentView(R.layout.activity_splash);
+
+			init();
+			initListeners();
 		}
 	}
 	private void init(){

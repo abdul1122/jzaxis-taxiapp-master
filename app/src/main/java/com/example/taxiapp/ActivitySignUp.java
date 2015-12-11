@@ -190,10 +190,14 @@ public class ActivitySignUp extends Activity implements View.OnClickListener, Ad
     private void performSignUpTask(UserDetails userDetails) {
         String SERVICE_URL_SIGNUP = null;
         try {
-            SERVICE_URL_SIGNUP = URLConstants.SERVICE_URL_SIGNUP + "?txt_full_name=" + URLEncoder.encode(userDetails.full_name, "utf8") +
-                    "&txt_email=" + URLEncoder.encode(userDetails.email, "utf8") + "&txt_mobile=" + URLEncoder.encode(userDetails.mobile, "utf8") +
-                    "&txt_city=" + URLEncoder.encode(userDetails.city, "utf8") + "&txt_city_lat=" + userDetails.city_lat +
-                    "&txt_city_lon=" + userDetails.city_lon + "&txt_password=" + URLEncoder.encode(userDetails.password, "utf8");
+            SERVICE_URL_SIGNUP = URLConstants.SERVICE_URL_SIGNUP +
+                    "?txt_full_name=" + URLEncoder.encode(userDetails.full_name, "utf8") +
+                    "&txt_email=" + URLEncoder.encode(userDetails.email, "utf8") +
+                    "&txt_mobile=" + URLEncoder.encode(userDetails.mobile, "utf8") +
+                    "&txt_city=" + URLEncoder.encode(userDetails.city, "utf8") +
+                    "&txt_city_lat=" + userDetails.city_lat +
+                    "&txt_city_lon=" + userDetails.city_lon +
+                    "&txt_password=" + URLEncoder.encode(userDetails.password, "utf8");
             if(userDetails.referal_code != null) {
                 SERVICE_URL_SIGNUP += "&txt_referal_code=" + URLEncoder.encode(userDetails.referal_code, "utf8");
             }
@@ -240,7 +244,7 @@ public class ActivitySignUp extends Activity implements View.OnClickListener, Ad
 
                                     // Redirecting user
                                     finish();
-                                    startActivity(new Intent(ActivitySignUp.this, ActivityFavorites.class));
+                                    startActivity(new Intent(ActivitySignUp.this, MainActivity.class));
                                 }
                             }
                             Log.i(TAG, "performSignUpTask() - Response: " + response);

@@ -144,7 +144,7 @@ public class ActivityLogin extends Activity implements View.OnClickListener {
 
                                     // Redirecting user
                                     finish();
-                                    startActivity(new Intent(ActivityLogin.this, ActivityFavorites.class));
+                                    startActivity(new Intent(ActivityLogin.this, MainActivity.class));
                                 }
                             }
                             Log.i(TAG, "performLoginTask() - Response: " + response);
